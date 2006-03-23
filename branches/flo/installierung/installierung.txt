@@ -1,1 +1,1 @@
-apt-get install php4-pgsql apache2 libapache2-mod-php4 libapache2-mod-auth-pgsqlphp4 php4-dev
+apt-get install postgresql php4-pgsql apache2 libapache2-mod-php4 libapache2-mod-auth-pgsqlphp4 php4-dev
