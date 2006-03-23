@@ -21,8 +21,9 @@ CREATE TABLE "login_info" (
 	"passwort" character varying(20)
 );
 
+-- angestelleter bruacht kein login_info, also kann einfach nur z.b. kassenverkaeufer sein
 CREATE TABLE "angestellte" (
-	"login_info_id" integer NOT NULL REFERENCES login_info(id),
+	"login_info_id" integer,
 	"name_id" integer  NOT NULL REFERENCES go_name(id)
 );
 	
