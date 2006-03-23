@@ -18,8 +18,14 @@ if($_POST['passwort'] == "" || $_POST['loginname'] == "") {
 
 <tr>
 	<td>Passwort:</td>
-	<td><input type=text name="passwort" size=20 maxlength=20 tabindex="1"></td>
+	<td><input type=text name="passwort" size=20 maxlength=20></td>
 </tr>
+
+<tr>
+	<td>Vorname:</td>
+	<td><input type=text name="vorname" size=20 maxlength=20></td>
+</tr>
+
 
 <tr>
 	<td><input type=submit value="Benutzer anlegen"></td>
@@ -29,24 +35,31 @@ if($_POST['passwort'] == "" || $_POST['loginname'] == "") {
 //wenn ein passwort und ein loginname gesetz sind, abspeichern in die postgresql db "angestellte"
 //
 } else {
-define('PGHOST','localhost');
-define('PGPORT',5432);
-define('PGDATABASE','phpunternehmer');
-define('PGUSER', 'postgres');
-define('PGPASSWORD', '');
-define('PGCLIENTENCODING','UNICODE');
-define('ERROR_ON_CONNECT_FAILED','Sorry, can not connect the database server now!');
+//verbindung zur datenbank und loginname und passwort speichern.
+$conn = "host=localhost port=5432 dbname=phpunternehmer ".
+        "user=postgres password=";
+	
+$db = pg_connect ($conn);
 
-$conn = "host=$PGHOST port=$PGPORT dbname=$PGDATABASE ".
-        "user='postgres' password=''";
-	$db = pg_connect ($conn);
+//einfuegen des vornamen, ein angestellter MUSS wohl einen vornamen haben, oder?
+$query = "INSERT INTO go_name(vorname) values('{$_POST['vorname']}')";
+$result = pg_query($query);
+//if($result) 
+//	print $result;
 
-$query = "INSERT INTO angestellte('login_name', 'passwort') values('{$_POST['loginname']}', '{$_POST['passwort']}')";
+//id aus go_name auslesen, damit man die referentielle integrietät der daten sicherstellt
+$query = "SELECT currval('go_name_id_seq'::text) as key";
+$result = pg_query($query);
+$serial_prim_key = pg_fetch_array($result, 0);
+$serial_prim_key = $serial_prim_key[key];
 
-$resultat = pg_query($conn, $query);
+//einfuegen der id, passwortes und des loginnames
+$query = "INSERT INTO login_info(id, loginname, passwort) values('$serial_prim_key', '{$_POST['loginname']}', '{$_POST['passwort']}')";
+$resultat = pg_query($query);
 
-print $resultat;
+//fehler von query's abfangen und entsprechend ausgeben.
 
+//db verbindung abbauen? noetig bei php?
 }
 ?>
 </table>

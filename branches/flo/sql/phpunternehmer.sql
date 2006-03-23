@@ -1,4 +1,5 @@
--- go_ steht fuer geschaeftsobjekt, womit kunden/lieferanten mit gemeint sind
+-- go_ steht fuer geschaeftsobjekt, womit kunden/lieferanten/kontakte mit gemeint sind. kontakte muessen 
+-- nichts kaufen/verkaufen sie koennen einfach nur gespeichert sein.
 CREATE TABLE "go_name" (
 	"id" SERIAL PRIMARY KEY,
 	"firmenname" character varying(50),
@@ -19,3 +20,10 @@ CREATE TABLE "login_info" (
 	"loginname" character varying(20),
 	"passwort" character varying(20)
 );
+
+CREATE TABLE "angestellte" (
+	"login_info_id" integer NOT NULL REFERENCES login_info(id),
+	"name_id" integer  NOT NULL REFERENCES go_name(id)
+);
+	
+

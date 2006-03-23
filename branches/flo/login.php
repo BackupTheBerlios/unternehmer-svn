@@ -21,11 +21,11 @@
 	    <table>
 	      <tr>
 		<th align=right>Name</th>
-		<td><input class=login name=login size=30 tabindex="1"></td>
+		<td><input name="loginname" size=20  maxlength=20 tabindex="1"></td>
 	      </tr> 
 	      <tr>
 		<th align=right>Password</th>
-		<td><input class=login type=password name=password size=30 tabindex="2"></td>
+		<td><input type=password name="passwort" size=20 maxlength=20 tabindex="2"></td>
 	      </tr>
 	    </table>
 
