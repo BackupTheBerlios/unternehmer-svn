@@ -1,8 +1,10 @@
 <?php
+
 //ueberpruefen ob loginname und/oder passwort fehlt
 if( $_POST['loginname'] == "" || $_POST['passwort'] == "") {
-print "fehler";
-//zurueck zu login
+
+//wenn was fehlt, zurueck zu login
+include "/var/www/unternehmer/branches/flo/login.php";
 
 } else {
 //verbindung zur datenbank 

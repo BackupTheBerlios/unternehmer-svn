@@ -17,8 +17,9 @@ CREATE TABLE "geschaeftsobjekt" (
 -- tabelle fuer loginname und passwort, damit man diese tabelle extra sperren kann, wenn noetig
 CREATE TABLE "login_info" (
 	"id" integer NOT NULL REFERENCES go_name(id),
-	"loginname" character varying(20),
-	"passwort" character varying(20)
+	"loginname" character varying(20) NOT NULL,
+	"passwort" character varying(20) NOT NULL,
+	UNIQUE(loginname, passwort)
 );
 
 -- angestelleter bruacht kein login_info, also kann einfach nur z.b. kassenverkaeufer sein
