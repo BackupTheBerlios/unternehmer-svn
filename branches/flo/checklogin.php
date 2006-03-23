@@ -17,9 +17,9 @@ $db = pg_connect ($conn);
 //ueberpruefen ob loginname und passwort existieren
 $query = "SELECT * FROM login_info WHERE loginname='{$_POST['loginname']}' AND passwort='{$_POST['passwort']}' ";
 $result = pg_query($query);
-print $result;
 
 //loginname und passwort existieren, login erlaubt
+
 
 //loginname und passwort existieren NICHT, zurueck zu login-bild
 
