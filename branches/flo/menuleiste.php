@@ -7,7 +7,7 @@
 
 <!-- Hier ist das untermenu fuer Stammdaten definiert -->
 <?php if( isset($_GET['menu_stamm']) ) { ?>
-<tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;<a href="kunde_erfassen.php" target="hauptfenster">Kunde erfassen</a></td><tr>
+<tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;<a href="stammdaten/kunde_erfassen.php" target="hauptfenster">Kunde erfassen</a></td><tr>
 <tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;Ware erfassen</td><tr>
 <?php } ?>
 
@@ -16,7 +16,7 @@
 
 <!-- Hier ist das untermenu fuer Verkauf definiert
 <?php if( isset($_GET['menu_verkauf']) ) { ?>
-<tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;Rechnung erfassen</td><tr>
+<tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;<a href="verkauf/rechnung_erfassen.php" target="hauptfenster">Rechnung erfassen</a></td><tr>
 <?php } ?>
 
 
