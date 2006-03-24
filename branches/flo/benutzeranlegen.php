@@ -32,7 +32,7 @@ if($_POST['passwort'] == "" || $_POST['loginname'] == "") {
 </tr>
 
 <?php
-//wenn ein passwort und ein loginname gesetz sind, abspeichern in die postgresql db "angestellte"
+//wenn ein passwort und ein loginname gesetz sind, abspeichern in die postgresql db 
 //
 } else {
 //verbindung zur datenbank und loginname und passwort speichern.
@@ -45,11 +45,11 @@ $db = pg_connect ($conn);
 
 //transaction level auf serializable setzen, damit falls es zu fehlern in einem query kam, die datenbank ein rollback machen kann. sicherheit
 $query = "SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL SERIALIZABLE";
-
-//fehlerbehandlung
 //das @-zeichen vor einer funktion bedeutet das die fehler/warning ausgabe unterdrueckt wird.
 //fehler sollen in menschlich-verstaendlicher form ausgegeben werden.(wenn moeglich)
 $resultat = @pg_query($query);
+
+//fehlerbehandlung
 if( $resultat == false) {
 	$fehlermeldung .= '$php_errormsg';
 	$fehlermeldung .= 'fehlermeldung: SET SESSION CHARACTERISTICS fehlgeschlagen';	
@@ -57,7 +57,7 @@ if( $resultat == false) {
 	//passwort loeschen, damit die obere bedingung eintritt um die maske zu sehen
 	$_POST['passwort'] = "";
 	//variable um am schluss richtigerweise "geklappt" oder "nicht geklappt" auszugeben, vielleicht hat jemand ne eleganter art
-	//und um andere querys zu unterbinden. Man koennte es mit elseif's machen, aber das waere zu verschachtelt/unuebersichtlich
+	//und um andere querys zu unterbinden. Man koennte es mit elseif's machen, aber das waere zu verschachtelt/unuebersichtlich/unflexibel
 	$db_ok = "KO";
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
@@ -165,6 +165,8 @@ if( $resultat == false) {
 	$db_ok = "KO";
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
+//wenn nichts ein fehler ergab, dann fuhre die transaction jetzt aus
+pg_query("COMMIT");
 } //ende if
 
 //db verbindung abbauen? noetig bei php?
