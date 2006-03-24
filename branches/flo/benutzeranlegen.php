@@ -138,7 +138,8 @@ $resultat = @pg_query($query);
 if( $resultat == false) {
 	//fehlerbehandlung einfuegen
 	$fehlermeldung .= '$php_errormsg';
-	$fehlermeldung .=  'fehlermeldung: INSERT INTO pg_shadow fehlgeschlagen';
+	$fehlermeldung .= 'fehlermeldung: INSERT INTO pg_shadow fehlgeschlagen';
+	$fehlermeldung .= 'Bedeutet meistens das es schon solch einen user/passwort gibt';
 	print $fehlermeldung;
 	pg_query("ROLLBACK");
 	$_POST['passwort'] = "";

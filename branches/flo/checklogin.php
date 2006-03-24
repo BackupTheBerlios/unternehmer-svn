@@ -14,13 +14,19 @@ $conn = "host=localhost port=5432 dbname=phpunternehmer ".
 $db = pg_connect ($conn);
 
 //ueberpruefen ob loginname und passwort existieren
-$query = "SELECT * FROM login_info WHERE loginname='{$_POST['loginname']}' AND passwort='{$_POST['passwort']}' ";
-$result = pg_query($query);
+$query = "SELECT usename, passwd FROM pg_shadow WHERE usename='{$_POST['loginname']}' AND passwd='{$_POST['passwort']}' ";
+$resultat = @pg_query($query);
+if( $resultat == false || pg_numrows($resultat) < 1) {
+	$fehlermeldung .= 'Benutzer oder Passwort existiert nicht';
+	print $fehlermeldung;
+	include "/var/www/unternehmer/branches/flo/login.php";
+	$db_ok = "KO";
+}
 
 //loginname und passwort existieren, login erlaubt
-include "/var/www/unternehmer/branches/flo/menu.php";
-
-//loginname und passwort existieren NICHT, zurueck zu login-bild
+if( $db_ok != "KO") {
+	include "/var/www/unternehmer/branches/flo/menu.php";
+}
 
 }
 ?>
