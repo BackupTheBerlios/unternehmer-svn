@@ -43,22 +43,31 @@ $db = pg_connect ($conn);
 
 //transaction level auf serializable setzen, damit falls es zu fehlern in einem query kam, die datenbank ein rollback machen kann. sicherheit
 $query = "SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL SERIALIZABLE";
-$resultat = pg_query($query);
-if( $resultat == "FALSE") {
+//das @-zeichen vor einer funktion bedeutet das die fehler/warning ausgabe unterdrueckt wird.
+//fehler sollen in menschlich-verstaendlicher form ausgegeben werden.(wenn moeglich)
+$resultat = @pg_query($query);
+if( $resultat == false) {
+	//print "fehlermeldung:'$php_errormsg'";
+	//passwort loeschen, damit die obere bedingung eintritt um die maske zu sehen
+	$_POST['passwort'] = "";
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
 
 //einfuegen des vornamen, ein angestellter MUSS wohl einen vornamen haben, oder?
 $query = "INSERT INTO go_name(vorname) values('{$_POST['vorname']}')";
-$resultat = pg_query($query);
-if( $resultat == "FALSE") {
+$resultat = @pg_query($query);
+if( $resultat == false) {
+	//fehlerbehandlung einfuegen
+	$_POST['passwort'] = "";
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
 
 //id aus go_name auslesen, damit man die referentielle integrietät der daten sicherstellt
 $query = "SELECT currval('go_name_id_seq'::text) as key";
-$resultat = pg_query($query);
-if( $resultat == "FALSE") { 
+$resultat = @pg_query($query);
+if( $resultat == false) { 
+	//fehlerbehandlung einfuegen
+	$_POST['passwort'] = "";
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
 $serial_prim_key = pg_fetch_array($resultat, 0);
@@ -69,15 +78,18 @@ $serial_prim_key = $serial_prim_key[key];
 //pg_user ist die public-view (ohne passwoerter) von benutzerdb, pg_shadow ist die original
 //ein angestellter bekommt keine berechtigung eine db anzulegen, er/sie benutzt sie nur.
 $query = "INSERT INTO pg_shadow(usesysid, usename, passwd, usecreatedb, usesuper, usecatupd ) values('$serial_prim_key', '{$_POST['loginname']}', '{$_POST['passwort']}', 'f', 'f', 'f')";
-$resultat = pg_query($query);
-if( $resultat == "FALSE") {
+$resultat = @pg_query($query);
+if( $resultat == false) {
+	//fehlerbehandlung einfuegen
+	$_POST['passwort'] = "";
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
 
 //id aus login_info auslesen, damit man die referentielle integrietat der daten sicherstellt
 $query = "INSERT INTO angestellte(pg_shadow_usesysid, name_id) values('$serial_prim_key', '$serial_prim_key')";
-$resultat = pg_query($query);
-if( $resultat == "FALSE") {
+$resultat = @pg_query($query);
+if( $resultat == false) {
+	//fehlerbehandlung einfuegen
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
 
@@ -85,6 +97,9 @@ if( $resultat == "FALSE") {
 
 //db verbindung abbauen? noetig bei php?
 //laut irc wird verbindung automatisch bei ende des scrips abgebaut, ausser bei persistent verbindungen
+
+//wenn man bis hierhin gekommen ist, dann sag bescheid was los war
+print "Benutzer erfolgreich angelegt";
 
 }
 ?>
