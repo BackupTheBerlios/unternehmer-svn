@@ -14,18 +14,10 @@ CREATE TABLE "geschaeftsobjekt" (
 	"adresse_id" integer
 );
 
--- tabelle fuer loginname und passwort, damit man diese tabelle extra sperren kann, wenn noetig
-CREATE TABLE "login_info" (
-	"id" integer NOT NULL REFERENCES go_name(id),
-	"loginname" character varying(20) NOT NULL,
-	"passwort" character varying(20) NOT NULL,
-	UNIQUE(loginname, passwort)
-);
-
 -- angestelleter bruacht kein login_info, also kann einfach nur z.b. kassenverkaeufer sein
 CREATE TABLE "angestellte" (
-	"login_info_id" integer,
-	"name_id" integer  NOT NULL REFERENCES go_name(id)
+	"name_id" integer  NOT NULL REFERENCES go_name(id),
+	"pg_shadow_usesysid" integer
 );
 	
 
