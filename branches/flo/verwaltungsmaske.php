@@ -5,7 +5,7 @@ $conn = "host=localhost port=5432 dbname=phpunternehmer ".
 	
 $db = pg_connect ($conn);
 //brauche ein select statement was vorname,nachname,loginame,datenbank ausliest
-$query = "SELECT usename FROM pg_shadow";
+$query = "SELECT usename FROM pg_user";
 $resultat = pg_query($query);
 if( $resultat == false) {
 	print "fehler bei benutzer holen";
@@ -44,12 +44,12 @@ if( $resultat == false) {
 </tr>
 <!-- Benutzerabteilung, muss flexible sein, da es ja mehrere oder weniger benutzer gibt, angezeigt werden -->
 <tr>
-	<td>Vorname</td>
-	<td>Nachname</td>
-	<td>Loginname</td>
-	<td>Firma</td>
-	<td>Datenbankcomputer</td>
-	<td>Datenbank</td>
+	<td bgcolor="grey">Vorname</td>
+	<td bgcolor="grey">Nachname</td>
+	<td bgcolor="grey">Loginname</td>
+	<td bgcolor="grey">Firma</td>
+	<td bgcolor="grey">Datenbankcomputer</td>
+	<td bgcolor="grey">Datenbank</td>
 </tr>
 <!-- hier kommen die flexiblen rows mit den benutzern dann automatisch -->
 <?php
@@ -72,7 +72,7 @@ for($i = 0; $i < $anzahl; $i++) { ?>
 <!-- Buttons -->
 <tr>
 	<form method="post" name="benutzererfassen" action="benutzererfassen.php">
-	<td><input type="submit" value="Benutzer erfassen" name="benutzererfassen"></td>
+	<td align="right"><input type="submit" value="Benutzer erfassen" name="benutzererfassen"></td>
 	</form>
 	<form method="post" name="datenbankadministration" action="datenbankadministration.php">
 	<td><input type="submit" value="Datenbankadministration" name="datenbankadministration"></td>
@@ -88,15 +88,15 @@ for($i = 0; $i < $anzahl; $i++) { ?>
 </tr>
 <form method="post" name="einloggen" action="checklogin.php">
 <tr>
-	<td>Loginname</td>
+	<td align="right">Loginname</td>
 	<td><input name="loginname" type="text"></td>
 </tr>
 <tr>
-	<td>Passwort</td>
+	<td align="right">Passwort</td>
 	<td><input name="passwort" type="text"></td>
 	</tr>
 <tr>
-	<td><input type="submit" value="Anmelden" name="anmelden"></td>
+	<td align="right"><input type="submit" value="Anmelden" name="anmelden"></td>
 </tr>
 </form>
 
