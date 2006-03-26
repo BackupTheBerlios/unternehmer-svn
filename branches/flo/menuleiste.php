@@ -8,7 +8,8 @@
 <!-- Hier ist das untermenu fuer Stammdaten definiert -->
 <?php if( isset($_GET['menu_stamm']) ) { ?>
 <tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;<a href="stammdaten/kunde_erfassen.php" target="hauptfenster">Kunde erfassen</a></td><tr>
-<tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;Ware erfassen</td><tr>
+<tr><td align="left"><img src="bilder/menu_unterpunkt.png">&nbsp;<a href="stammdaten/ware_erfassen.php" target="hauptfenster">Ware erfassen</a></td><tr>
+
 <?php } ?>
 
 <!-- Hier ist der Hauptmenupunkt Verkauf definiert -->
