@@ -1,1 +1,9 @@
 apt-get install postgresql php4-pgsql apache2 libapache2-mod-php4 libapache2-mod-auth-pgsqlphp4 php4-dev
+
+
+--db
+gruppe unternehmer in db anlegen, da alle user reinstecken
+GRANT ALL ON go_name to group unternehmer;
+pg_hba.conf aendern von ident auf trust (vorerst)
+Berechtigung fuer db-sequenzen wie go_name_id_seq vergeben
+einfach: grant all on database d to group unternehmer;

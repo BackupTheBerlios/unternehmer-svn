@@ -1,10 +1,8 @@
 <?php
 session_start();
-$_SESSION['flo'] = 'holiday';
-
 
 //ueberpruefen ob loginname und/oder passwort fehlt
-if( $_POST['loginname'] == "" || $_POST['passwort'] == "") {
+if( $_POST['loginname'] == "" || $_POST['passwort'] == "" || $_POST['dbname'] == "") {
 
 //wenn was fehlt, zurueck zu login
 include "/var/www/unternehmer/branches/flo/login.php";
@@ -28,6 +26,8 @@ if(!isset($_SESSION['benutzer']) && !isset($_SESSION['passwort']) ) {
 		$passwort = $_SESSION['passwort'];
 	}
 }
+
+$_SESSION['datenbankname'] = $_POST['dbname'];
 
 //verbindung zur datenbank 
 $conn = "host=localhost port=5432 dbname=phpunternehmer ".

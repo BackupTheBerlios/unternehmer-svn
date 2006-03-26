@@ -27,6 +27,10 @@
 		<th align=right>Password</th>
 		<td><input type=password name="passwort" size=20 maxlength=20 tabindex="2"></td>
 	      </tr>
+	      <tr>
+	      	<th align="right">Datenbankname</th>
+		<td><input type="text" name="dbname" size="20" tabindex="3"></td>
+	      </tr>
 	    </table>
 
 	    <br>
