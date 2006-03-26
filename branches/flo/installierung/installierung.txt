@@ -7,3 +7,4 @@ GRANT ALL ON go_name to group unternehmer;
 pg_hba.conf aendern von ident auf trust (vorerst)
 Berechtigung fuer db-sequenzen wie go_name_id_seq vergeben
 einfach: grant all on database d to group unternehmer;
+grant all on go_name_id_seq to group unternehmer (kunde erfassen)

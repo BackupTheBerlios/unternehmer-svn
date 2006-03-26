@@ -20,8 +20,7 @@ else {
 	$passwort =  htmlspecialchars($_SESSION['passwort']);
 	$benutzer =  htmlspecialchars($_SESSION['benutzer']);
 	$dbname =  htmlspecialchars($_SESSION['datenbankname']);
-	print "testo:";
-	print $_SESSION['datenbankname'];
+	
 	$conn = "host=localhost port=5432 dbname=$dbname user=$benutzer password=$passwort";
 	
 	$db = pg_connect ($conn);
@@ -33,10 +32,11 @@ else {
 	$vorname = $_POST['vorname'];
 	$nachname = $_POST['nachname'];
 	$strasse = $_POST['strasse'];
-	$hausnr = $_POST['plz'];
-	$plz = $_POST['stadt'];
-	$land = $_POST['land'];	
-	
+	$hausnr = $_POST['hausnr'];
+	$plz = $_POST['plz'];
+	$land = $_POST['land'];		
+   $stadt = $_POST['stadt'];
+   
 	$query = "INSERT INTO go_name(firmenname, vorname, nachname) values('$firmenname', '$vorname', '$nachname')";
 
 	$resultat = pg_query($query);
@@ -58,7 +58,7 @@ else {
 		$serial_prim_key = pg_fetch_array($resultat, 0);
 		$serial_prim_key = $serial_prim_key[key];
 	
-		$query = "INSERT INTO adresse VALUES($serial_prim_key, $strasse, $hausnr, $plz, $stadt, $land);";
+		$query = "INSERT INTO adresse VALUES('$serial_prim_key', '$strasse', '$hausnr', '$plz', '$stadt', '$land');";
 
 		$resultat = pg_query($query);
 		if($resultat == false) {
@@ -74,6 +74,7 @@ else {
 
 <html>
 <body>
+Kunde erfolgreich angelegt<br>
 Danke
 </body>
 </html>
