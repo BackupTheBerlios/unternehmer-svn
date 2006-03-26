@@ -1,3 +1,5 @@
+<form method="post" action="kunde_erfassen1.php">
+
 <table width="100%" border="1">
 <tr>
 	<td colspan="2"><h2><center>Kunde erfassen<center></h2></td>
@@ -152,6 +154,6 @@
 </tr>
 
 </table>
-
+</form>
 </body>
 </html>

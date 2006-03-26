@@ -7,6 +7,13 @@ if( $_POST['loginname'] == "" || $_POST['passwort'] == "") {
 include "/var/www/unternehmer/branches/flo/login.php";
 
 } else {
+
+//session variable setzen
+if(!isset($_SESSION['user']) && !isset($_SESSION['pass']) ) {
+	$_SESSION['user'] = $_POST['loginname'];
+	$_SESSION['pass'] = $_POST['passwort'];
+}
+
 //verbindung zur datenbank 
 $conn = "host=localhost port=5432 dbname=phpunternehmer ".
         "user=postgres password=";
