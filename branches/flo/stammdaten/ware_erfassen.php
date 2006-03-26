@@ -1,14 +1,22 @@
 <html>
 <body>
-<table width="100%" border="1">
+<table width="100%" border="0">
 <tr><td colspan="2"><div align="center"><h2>Ware erfassen</h2></div></td></tr>
 <tr>
-	<td>Atikelnummer</td>
-	<td>Artikelbezeichnung</td>
+	<td align="right">Artikelbezeichnung</td>
+	<td><input type="text" name="artikelbezeichnung"></td>	
 </tr>
 <tr>
+	<td align="right">Artikelnummer</td>
 	<td><input type="text" name="artikelnummer"></td>
-	<td><input type="text" name="artikelbezeichnung"></td>
+</tr>
+<tr>
+	<td align="right">Hersteller</td>
+	<td><input type="text" name="hersteller"</td>
+</tr>
+<tr>
+	<td align="right">Modell</td>
+	<td><input type="text" name="modell"></td>
 </tr>
 <tr>
 	<td align="right">Listenpreis</td>
@@ -38,15 +46,22 @@
 	<td align="right">Lagerplatz</td>
 	<td><input type="text" name="lagerplatz" value="nichtnutzbar"></td>
 </tr>
+
 <tr>
-	<td><h3>Konten verkn&uuml;pfen</h3></td>
+	<td colspan="2" align="center"><h3>Konten verkn&uuml;pfen</h3></td>
 </tr>
 <tr>
-	<td>Erl&ouml;skonto</td>
+	<td align="right">Erl&ouml;skonto</td>
 	<td><select name="erloeskont" size="0"></select></td>
 </tr>
 <tr>
-	<td>Aufwandskonto</td>
+	<td align="right">Aufwandskonto</td>
 	<td><select name="aufwandskonto" size="0"></select></td>
+</tr>
+<tr>
+	<td colspan="2"><hr></td>
+</tr>
+<tr>
+	<td align="center" colspan="2"><input type="submit" name="ware_erfassen" value="Ware abspeichern"></td>
 </tr>
 </table>
