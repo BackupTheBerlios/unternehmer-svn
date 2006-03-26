@@ -1,4 +1,4 @@
-<frameset rows="20px,*" cols="*" framespacing="0" frameborder="0">
+<frameset rows="30px,*" cols="*" framespacing="0" frameborder="0">
   <frame  src="kopf.php" name="kopf"  scrolling="NO">
   <frameset cols="190,*" framespacing="0" frameborder="0" border="0" >
     <frame src="menuleiste.php" name="menuleiste"  scrolling="auto" noresize marginwidth="0">
