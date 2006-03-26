@@ -37,13 +37,41 @@
 
 	//sql file einspielen um die tabellen undsoweiter zu erstellen
 	//transaction beginnen
+	
 	pg_query("BEGIN TRANSACTION");
+	
+	$sqlfile = '/var/www/unternehmer/branches/flo/sql/phpunternehmer.sql';
+	//datei in array einlesen
+	$array = file($sqlfile);
+	$query = "";
 
-	$oid = pg_lo_import($db, '/var/www/unternehmer/branches/flo/sql/phpunternehmer.sql');
-	print $oid;
-
+	for($i = 0; $i < count($array); $i++) {
+		if( strstr($array[$i], '--') == FALSE) {
+			$query .= $array[$i];
+			
+			if( strstr($array[$i], ');') != FALSE) {
+				print $query;
+				$resultat = pg_query($query);
+				//fehlerbehandlung
+				if( $resultat == false) {
+					print "fehler im query generator";
+					$db_ok = "KO";
+				}
+				$query = "";
+			}
+		}
+	}
+	
+	
+	//pg_query(file_get_contents($sqlfile)) or die "fehler dump";
+	
 	//transaction abschliessen
-	pg_query("COMMIT");
+	if( $db_ok == "KO") {
+		pg_query("ROLLBACK");
+	} else {
+		pg_query("COMMIT");
+	}
+	
 
 ?>
 
