@@ -34,6 +34,8 @@ print $query;
 	if($resultat == false){
 		pg_query("ROLLBACK");
 	} else {
+		$preise_id = pg_fetch_row($resultat, 0);
+		
 		$query = "SELECT id FROM konten WHERE kontennr='{$_POST['erloeskonto']}'";
 
 		$resultat = pg_query($query);
@@ -41,8 +43,7 @@ print $query;
 			pg_query("ROLLBACK");
 		} else {
 			//daten einsammeln
-			$erloeskonto = pg_fetch_array($resultat, 0);
-			print $erloeskonto;
+			$erloeskonto = pg_fetch_row($resultat, 0);
 			
 			$query = "SELECT id FROM konten WHERE kontennr='{$_POST['aufwandskonto']}'";
 
@@ -51,11 +52,16 @@ print $query;
 			if($resultat == false) {
 				pg_query("ROLLBACK");
 			} else {
-				$aufwandskonto = pg_fetch_array($resultat, 0);
-				print $aufwandskonto;
+				$aufwandskonto = pg_fetch_row($resultat, 0);
 				
-				$query = "INSERT INTO verkaufsobjekt(bezeichnung, art_nr, preise_id, konten_id, hersteller_id, vo_details_id) VALUES('{$_POST['artikelbezeichnung']}', '{$_POST['artikelnr']}', '$preise_id', '$konten_id', '$hersteller_id', '$vo_details_id')";
-
+				if($_POST['artikelbezeichnung'] != "") {$bezeichnung = $_POST['artikelbezeichnung'];} else {$bezeichnung = 0;}
+				if($_POST['artikelnr'] != "") {$art_nr = $_POST['artikelnr'];} else {$art_nr = 0;} 
+				if($hersteller_id == "") {$hersteller_id = 0;} 
+				if($vo_details_id == "") {$vo_details_id = 0;}
+				
+				//konten_id in aufwandskonto-spalte und erloeskonto-spalte aufteilen, oder noch eine tabelle anlegen
+				$query = "INSERT INTO verkaufsobjekt(bezeichnung, art_nr, preise_id, konten_id, hersteller_id, vo_details_id) VALUES('$bezeichnung', '$art_nr', '$preise_id', '$konten_id', '$hersteller_id', '$vo_details_id')";
+print $query;
 				$resultat = pg_query($query);
 
 				if($resultat = false) {
