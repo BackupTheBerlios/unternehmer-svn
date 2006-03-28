@@ -60,7 +60,40 @@ CREATE TABLE "verkaufsobjekt" (
 	"hersteller_id" integer REFERENCES hersteller(id),
 	"vo_details_id" integer REFERENCES vo_details(id)
 );
+-- besseren namen finden
+CREATE TABLE "rechnung_bezahlt" (
+	"id" SERIAL PRIMARY KEY,
+	"summe" numeric(15,5) NOT NULL,
+	"kunde_id" integer NOT NULL REFERENCES go_name(id),
+	"rechnung_id" integer NOT NULL REFERENCES rechnung(id),
+	"rechnung_vo_id" integer,
+	"erloeskonto_id" integer NOT NULL REFERENCES konten(id)
+);
 
+
+CREATE TABLE "rechnung" (
+	"id" SERIAL PRIMARY KEY,
+	"kunde_id" integer NOT NULL REFERENCES go_name(id),
+	"rechnungsdatum" date DEFAULT date ('now'::text),
+	"faelligkeitsdatum" date
+);
+
+
+CREATE TABLE "rechnung_vo" (
+	"id" SERIAL PRIMARY KEY,
+	"rechnung_id" integer NOT NULL REFERENCES rechnung(id),
+	"vo_id" integer NOT NULL REFERENCES verkaufsobjekt(id),
+	"vo_preise_id" integer NOT NULL REFERENCES preise(id),
+	"anzahl" integer DEFAULT 1,
+	"rabatt" integer DEFAULT 0
+);
+
+
+grant all on rechnung_bezahlt to group unternehmer;
+grant all on rechnung_bezahlt_id_seq to group unternehmer;
+grant all on rechnung_vo to group unternehmer;
+grant all on rechnung to group unternehmer;
+grant all on rechnung_id_seq to group unternehmer;
 GRANT ALL ON go_name to group unternehmer;
 grant all on database d to group unternehmer;
 grant all on go_name_id_seq to group unternehmer; 

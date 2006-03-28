@@ -78,15 +78,15 @@
       	</tr>
       	<tr>
 		<th align=right nowrap>Auftragsnummer</th>
-		<td><input name=ordnumber size=11 value=""></td>
+		<td><input name=ordnumber size=11 value="select oder"></td>
       	</tr>
       	<tr>
 		<th align=right nowrap>Angebotsnummer</th>
-		<td><input name=quonumber size=11 value=""></td>
+		<td><input name=quonumber size=11 value="auch select"></td>
       	</tr>
       	<tr>
 		<th align=right nowrap>Bestellnummer des Kunden</th>
-		<td><input name=cusordnumber size=11 value=""></td>
+		<td><input name=cusordnumber size=11 value="auch select"></td>
       	</tr>
 	</table>
 </td>
