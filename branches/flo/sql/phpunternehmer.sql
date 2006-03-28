@@ -55,7 +55,8 @@ CREATE TABLE "verkaufsobjekt" (
 	"bezeichnung" character varying(50) NOT NULL,
 	"art_nr" character varying(50),
 	"preise_id" integer NOT NULL REFERENCES preise(id),
-	"konten_id" integer NOT NULL REFERENCES konten(id),
+	"erloeskonto_id" integer NOT NULL REFERENCES konten(id),
+	"aufwandskonto_id" integer NOT NULL REFERENCES konten(id),
 	"hersteller_id" integer REFERENCES hersteller(id),
 	"vo_details_id" integer REFERENCES vo_details(id)
 );
