@@ -13,11 +13,11 @@
 </tr>
 <tr>
 	<td align="right">Hersteller</td>
-	<td><input type="text" name="hersteller"</td>
+	<td><input type="text" name="hersteller" value="nichtnutzbar"></td>
 </tr>
 <tr>
 	<td align="right">Modell</td>
-	<td><input type="text" name="modell"></td>
+	<td><input type="text" name="modell" value="nichtnutzbar"></td>
 </tr>
 <tr>
 	<td align="right">Listenpreis</td>
