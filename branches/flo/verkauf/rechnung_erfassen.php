@@ -1,6 +1,8 @@
 <html>
 <body>
 
+
+<form id='rechnungform' name="rechnung" method="post">
 <table width="100%" border="1">
 <tr>
 	<th colspan="8"><center>Rechnung erfassen</center></th>
@@ -74,7 +76,7 @@
       	</tr>
       	<tr>
 		<th align=right>F&auml;lligkeitsdatum</th>
-      		 <td width="13"><input name=duedate id=duedate size=11 title="dd.mm.yy" value=28.03.2006></td>
+      		 <td width="13"><input type="text" name="duedate" id=duedate size=11 title="dd.mm.yy" value=28.03.2006></td>
       	</tr>
       	<tr>
 		<th align=right nowrap>Auftragsnummer</th>
@@ -85,7 +87,7 @@
 		<td><input name=quonumber size=11 value="auch select"></td>
       	</tr>
       	<tr>
-		<th align=right nowrap>Bestellnummer des Kunden</th>
+		<th align=right nowrap>Bestellnummer</th>
 		<td><input name=cusordnumber size=11 value="auch select"></td>
       	</tr>
 	</table>
@@ -106,7 +108,7 @@
 
 <!-- php dynamisch -->
 <tr valign=top>
-	<td><input name="pos_1" size="2"></td>
+	<td><select name="pos_1" size="0"></td>
 	<td><input name="partnumber_1" size=8 value=""></td>
 	<td><input name="description_1" size=30 value=""></td>
 	<td align=right><input name="qty_1" size=5 value=0></td>
@@ -117,5 +119,39 @@
 </tr>
 
 </table>
+</form>
+
 </body>
 </html>
+
+<script type='text/javascript'>
+//document.onkeydown = suche;
+
+function init() {
+var f=document.getElementById('rechnungform'); 
+if(f) {
+	for(var i=0; i<f.elements.length; i++) { 
+        	e=f.elements[i];
+	        if(e.type=='text'){
+			e.onkeydown=suche;
+		}
+	}
+}
+}
+
+window.onload=init;
+
+function suche(e)
+{
+	var event = e || window.event;
+	var text1 = document.rechnung.duedate.value;
+	document.write(text1);
+		
+	var text2 = event.target.name;
+	document.write(text2);
+}
+
+
+</script>
+
+
