@@ -125,32 +125,26 @@
 </html>
 
 <script type='text/javascript'>
-//document.onkeydown = suche;
-
-function init() {
-var f=document.getElementById('rechnungform'); 
-if(f) {
-	for(var i=0; i<f.elements.length; i++) { 
-        	e=f.elements[i];
-	        if(e.type=='text'){
-			e.onkeydown=suche;
-		}
-	}
-}
-}
-
-window.onload=init;
 
 function suche(e)
 {
-	var event = e || window.event;
-	var text1 = document.rechnung.duedate.value;
-	document.write(text1);
-		
-	var text2 = event.target.name;
-	document.write(text2);
+	//name ermitteln des input feldes == was sucht man
+	var e = e || event;
+	var ele = e.target || e.srcElement;
+	
+	var inputfeld = ele.name;
+	//alert(inputfeld);
+	
+	//suchwert ermitteln, falls es einen gibt
+	var inputwert = ele.value;
+	//alert(box);
+
+	
 }
 
+window.onload = function() {
+    document.getElementById('rechnungform').onkeyup = suche;    
+}
 
 </script>
 
