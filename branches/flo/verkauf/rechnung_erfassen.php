@@ -114,7 +114,7 @@ if($resultat == false) {
 <html>
 <body>
 
-<form id='rechnungform' name="rechnung" method="post">
+<form id='rechnungform' name="rechnung" method="post" action="rechnung_erfassen1.php">
 <table width="100%" border="1">
 <tr>
 	<th colspan="8"><center>Rechnung erfassen</center></th>
@@ -284,8 +284,6 @@ for($i = 0;$i < $anz4; $i++) {
 </table>
 </form>
 
-</body>
-</html>
 
 <script type='text/javascript'>
 
@@ -311,4 +309,5 @@ window.onload = function() {
 
 </script>
 
-
+</body>
+</html>

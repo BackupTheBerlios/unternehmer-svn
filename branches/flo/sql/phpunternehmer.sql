@@ -97,6 +97,7 @@ CREATE TABLE "rechnung_vo" (
 	"rechnung_id" integer NOT NULL REFERENCES rechnung(id),
 	"vo_id" integer NOT NULL REFERENCES verkaufsobjekt(id),
 	"vo_preise_id" integer NOT NULL REFERENCES preise(id),
+	"buchungskonto_id" integer NOT NULL REFERENCES konten(id),
 	"anzahl" integer DEFAULT 1,
 	"rabatt" integer DEFAULT 0
 );
