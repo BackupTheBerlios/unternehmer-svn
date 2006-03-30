@@ -4,15 +4,22 @@ CREATE TABLE "go_name" (
 	"vorname" character varying(50),
 	"nachname" character varying(50)
 );
+
 CREATE TABLE "geschaeftsobjekt" (
 	"name_id" integer NOT NULL REFERENCES go_name(id),
 	"adresse_id" integer
 );
+
 CREATE TABLE "angestellte" (
 	"name_id" integer  NOT NULL REFERENCES go_name(id),
-	"adresse_id" integer,
-	"pg_shadow_usesysid" integer
+	"adresse_id" integer REFERENCES adresse(id),
+	"pg_shadow_usesysid" integer REFERENCES pg_user(usesysid)
 );
+
+CREATE TABLE "kontakt" (
+	"name_id" integer NOT NULL REFERENCES go_name(id)
+);
+
 CREATE TABLE "adresse" (
 	"id" integer NOT NULL REFERENCES go_name(id),
 	"strasse" character varying(50),
@@ -42,10 +49,16 @@ CREATE TABLE "preise" (
 	"einkaufspreis" numeric(15,5)
 );
 
+CREATE TABLE "waehrung" (
+	"id" SERIAL PRIMARY KEY,
+	"waehrung" character varying(20)
+);
+
 CREATE TABLE "vo_details" (
 	"id" SERIAL PRIMARY KEY,
 	"gewicht" integer,
-	"einheit" character varying(50) DEFAULT 'Stck'
+	"einheit" character varying(50) DEFAULT 'Stck',
+	"waehrung_id" integer  NOT NULL REFERENCES waehrung(id)
 );
 
 --  VerkaufsObjekt, weil es ware,dienstleistung oder lizenz sein kann. name halt
@@ -89,11 +102,14 @@ CREATE TABLE "rechnung_vo" (
 );
 
 
+GRANT ALL ON kontakt TO GROUP unternehmer;
+GRANT ALL ON waehrung TO GROUP unternehmer;
 grant all on rechnung_bezahlt to group unternehmer;
 grant all on rechnung_bezahlt_id_seq to group unternehmer;
 grant all on rechnung_vo to group unternehmer;
 grant all on rechnung to group unternehmer;
 grant all on rechnung_id_seq to group unternehmer;
+GRANT ALL ON angestellte TO GROUP unternehmer;
 GRANT ALL ON go_name to group unternehmer;
 grant all on database d to group unternehmer;
 grant all on go_name_id_seq to group unternehmer; 
