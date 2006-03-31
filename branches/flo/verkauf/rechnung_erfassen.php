@@ -6,7 +6,7 @@ $conn = "host=localhost port=5432 dbname={$_SESSION['datenbankname']} user={$_SE
 	
 $db = pg_connect ($conn);
 
-$query = "SELECT firmenname,vorname,nachname FROM go_name";
+$query = "SELECT id,firmenname,vorname,nachname FROM go_name";
 
 $resultat = pg_query($query);
 if($resultat == false) {
@@ -14,17 +14,18 @@ if($resultat == false) {
 } else {
 	$anz_reihen = pg_num_rows($resultat);
 	for($i = 0;$i < $anz_reihen; $i++){
-		$array = pg_fetch_array($resultat, NULL, PGSQL_ASSOC);	
-		print $array['firmenname'];
+		$array = pg_fetch_array($resultat, NULL, PGSQL_ASSOC);
 		if($array['firmenname'] == "") {
-			print "eins";
 			$kunden[$i] = $array['vorname'];
 			$kunden[$i] .= '&nbsp;';
 			$kunden[$i] .= $array['nachname'];
+			$kunden[$i] .= '---';
+			$kunden[$i] .= $array['id'];
 			$kunden_html[$i] = "<option>$kunden[$i]</option>";
 		} else {
-			print "zwei";
 			$firmenname = $array['firmenname'];
+			$firmenname .= '---';
+			$firmenname .= $array['id'];
 			$kunden_html[$i] = "<option>$firmenname</option>";
 		}
 	}
@@ -65,7 +66,7 @@ if($resultat == false) {
 		$array = pg_fetch_array($resultat, NULL, PGSQL_ASSOC);					
 		
 		$konten[$i] = $array['kontennr'];
-		$konten[$i] .= '&nbsp;';
+		$konten[$i] .= '---';
 		$konten[$i] .= $array['kontenbezeichnung'];
 		$konten_html[$i] = "<option>$konten[$i]</option>";
 	}
@@ -114,7 +115,7 @@ if($resultat == false) {
 <html>
 <body>
 
-<form id='rechnungform' name="rechnung" method="post" action="rechnung_erfassen1.php">
+<form id='rechnungform' name="rechnung" method="post">
 <table width="100%" border="1">
 <tr>
 	<th colspan="8"><center>Rechnung erfassen</center></th>
@@ -159,7 +160,7 @@ for($i = 0;$i < $anz1; $i++) {
 	</tr>
 	<tr>
 		<th align=right nowrap>buchen auf</th>
-		<td colspan=3><select name="erloeskonto">
+		<td colspan=3><select name="buchungskonto">
 <!-- php dynamisch -->
 <?php
 $anz2 = count($konten_html); 
@@ -184,11 +185,11 @@ for($i = 0;$i < $anz3; $i++) {
 	</tr>
 	<tr>
 		<th align=right nowrap>Versandort</th>
-		<td colspan=3><input name="versandort" size=35 value=""></td>
+		<td colspan=3><input name="versandort" size=35 value="nicht nutzbar"></td>
 	</tr>
 	<tr>
 		<th align=right nowrap>Transportmittel</th>
-		<td colspan=3><input name="transportmittel" size=35 value=""></td>
+		<td colspan=3><input name="transportmittel" size=35 value="nicht nutzbar"></td>
 	</tr>
 	</table>
 	</td>
@@ -208,7 +209,7 @@ for($i = 0;$i < $anz4; $i++) {
       	</tr>
       	<tr>
 		<th align=right nowrap>Rechnungsnummer</th>
-		<td><input name="rechnungsnr" size=11 value=""></td>
+		<td><input name="rechnungsnr" size=11 value="automatisch"></td>
       	</tr>
       	<tr>
 		<th align=right>Rechnungsdatum</th>
@@ -279,7 +280,7 @@ for($i = 0;$i < $anz4; $i++) {
 	<td colspan="8">&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="5"><input type="submit" name="rechnung_buchen" value="Rechnung buchen"></td>
+	<td colspan="5"><input type="submit" name="rechnung_buchen" value="Rechnung buchen" onClick="rechnung_erfassen1.php"></td>
 </tr>
 </table>
 </form>
@@ -289,22 +290,28 @@ for($i = 0;$i < $anz4; $i++) {
 
 function suche(e)
 {
+	
 	//name ermitteln des input feldes == was sucht man
 	var e = e || event;
 	var ele = e.target || e.srcElement;
 	
-	var inputfeld = ele.name;
-	//alert(inputfeld);
+	if(e.keyCode == 13) {
 	
-	//suchwert ermitteln, falls es einen gibt
-	var inputwert = ele.value;
-	//alert(box);
-
+		var inputfeld = ele.name;
+		//alert(inputfeld);
+	
+		//suchwert ermitteln, falls es einen gibt
+		var inputwert = ele.value;
+		//alert(inputwert);
+		
+		var popupWindow = window.open(
+      'rechnung_suche.php','rechnung_suche_fenster',"width=450,height=300, screenY=250, screenX=300");
+	}
 	
 }
 
 window.onload = function() {
-    document.getElementById('rechnungform').onkeyup = suche;    
+    document.getElementById('rechnungform').onkeydown = suche;    
 }
 
 </script>
