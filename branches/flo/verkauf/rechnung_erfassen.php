@@ -116,7 +116,7 @@ if($resultat == false) {
 <body>
 
 <form id='rechnungform' name="rechnung" method="post">
-<table width="100%" border="1">
+<table width="100%" border="1" id="tabelle_id">
 <tr>
 	<th colspan="8"><center>Rechnung erfassen</center></th>
 </tr>
@@ -254,11 +254,11 @@ for($i = 0;$i < $anz4; $i++) {
 		<option>2</option>
 	</td>
 	<td><input name="art_nr_1" size=8 value=""></td>
-	<td><input name="bezeichnung_1" size=30 value=""></td>
+	<td><input name="bezeichnung_1" size=30 value="" onkeydown="suche(event)"></td>
 	<td align=right><input name="anzahl_1" size=5 value=0></td>
 	<td><input name="einheit_1" size=5 value=""></td>
 	<td align=right><input name="verkaufspreis_1" size=9 value=0></td>
-	<td align=right><input name="rabatt_1" size=3 value=0></td>
+	<td align=right><input name="rabatt_1" size=3 value=0 onkeydown="naechste_reihe(event)"></td>
 	<td align=right>0</td>
 </tr>
 <tr valign=top>
@@ -275,7 +275,9 @@ for($i = 0;$i < $anz4; $i++) {
 	<td align=right>0</td>
 </tr>
 
-
+<?php
+$test
+?>
 <tr>
 	<td colspan="8">&nbsp;</td>
 </tr>
@@ -287,6 +289,30 @@ for($i = 0;$i < $anz4; $i++) {
 
 
 <script type='text/javascript'>
+function naechste_reihe(e)
+{
+		//alert("hallo");
+		//tr = document.createElement('tr');
+		//td = document.createElement('td');
+		//input = document.createElement('input'); 
+		//tr.appendChild(td);
+		//td.appendChild(input);
+		
+		var tabelle = document.getElementById('tabelle_id');
+		var letzte_reihe = tabelle.rows.length;
+		letzte_reihe -= 2;
+		var zaehler = letzte_reihe;
+		var reihe = tabelle.insertRow(letzte_reihe);
+		
+		var linkezelle = reihe.insertCell(0);
+		var el = document.createElement('input');
+		el.type = 'text';
+		el.name = 'txtRow' + iteration;
+	   el.id = 'txtRow' + iteration;
+	   linkezelle.appendChild(el);
+	 
+
+}
 
 function suche(e)
 {
@@ -310,9 +336,7 @@ function suche(e)
 	
 }
 
-window.onload = function() {
-    document.getElementById('rechnungform').onkeydown = suche;    
-}
+
 
 </script>
 
