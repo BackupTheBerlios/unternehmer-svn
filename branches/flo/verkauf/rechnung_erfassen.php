@@ -254,26 +254,14 @@ for($i = 0;$i < $anz4; $i++) {
 		<option>2</option>
 	</td>
 	<td><input name="art_nr_1" size=8 value=""></td>
-	<td><input name="bezeichnung_1" size=30 value="" onkeydown="suche(event)"></td>
-	<td align=right><input name="anzahl_1" size=5 value=0></td>
-	<td><input name="einheit_1" size=5 value=""></td>
+	<td><input name="bezeichnung_1" size=30 value="" onkeypress="suche(event)"></td>
+	<td align=right><input name="anzahl_1" size=5 value=1></td>
+	<td><input name="einheit_1" size=5 value="Stck"></td>
 	<td align=right><input name="verkaufspreis_1" size=9 value=0></td>
-	<td align=right><input name="rabatt_1" size=3 value=0 onkeydown="naechste_reihe(event)"></td>
+	<td align=right><input name="rabatt_1" size=3 value=0 onkeypress="naechste_reihe(event)"></td>
 	<td align=right>0</td>
 </tr>
-<tr valign=top>
-	<td><select name="pos_2" size="0">
-		<option>1</option>
-		<option selected>2</option>
-	</td>
-	<td><input name="art_nr_2" size=8 value=""></td>
-	<td><input name="bezeichnung_2" size=30 value=""></td>
-	<td align=right><input name="anzahl_2" size=5 value=0></td>
-	<td><input name="einheit_2" size=5 value=""></td>
-	<td align=right><input name="verkaufspreis_2" size=9 value=0></td>
-	<td align=right><input name="rabatt_2" size=3 value=0></td>
-	<td align=right>0</td>
-</tr>
+
 
 <?php
 $test
@@ -297,6 +285,10 @@ function naechste_reihe(e)
 		//input = document.createElement('input'); 
 		//tr.appendChild(td);
 		//td.appendChild(input);
+		if(!e)
+			var e = e;
+			
+		if(e.keyCode == 9) {
 		
 		var tabelle = document.getElementById('tabelle_id');
 		var letzte_reihe = tabelle.rows.length;
@@ -304,13 +296,74 @@ function naechste_reihe(e)
 		var zaehler = letzte_reihe;
 		var reihe = tabelle.insertRow(letzte_reihe);
 		
-		var linkezelle = reihe.insertCell(0);
-		var el = document.createElement('input');
-		el.type = 'text';
-		el.name = 'txtRow' + iteration;
-	   el.id = 'txtRow' + iteration;
-	   linkezelle.appendChild(el);
-	 
+		var zelle0 = reihe.insertCell(0);
+		var zelle0_select = document.createElement('select');
+		zelle0_select.name = 'selReihe' + zaehler;
+		zelle0_select.options[0] = new Option('3', 'drei');
+		zelle0.appendChild(zelle0_select);
+		
+		var zelle1 = reihe.insertCell(1);
+		var zelle1_input = document.createElement('input');
+		zelle1_input.type = 'text';
+		zelle1_input.name = 'txtRow' + zaehler;
+	   zelle1_input.id = 'txtRow' + zaehler;
+	   zelle1_input.size = '8';
+	   zelle1.appendChild(zelle1_input);
+	   
+	   var zelle2 = reihe.insertCell(2);
+		var zelle2_input = document.createElement('input');
+		zelle2_input.type = 'text';
+		zelle2_input.name = 'txtRow' + zaehler;
+	   zelle2_input.id = 'txtRow' + zaehler;
+	   zelle2_input.size = '30';
+	   zelle2.appendChild(zelle2_input);
+	   
+	   var zelle3 = reihe.insertCell(3);
+		var zelle3_input = document.createElement('input');
+		zelle3_input.type = 'text';
+		zelle3_input.name = 'txtRow' + zaehler;
+	   zelle3_input.id = 'txtRow' + zaehler;
+	   zelle3_input.value = '1';
+	   zelle3.align = 'right';
+	   zelle3_input.size = '5';
+	   zelle3.appendChild(zelle3_input);
+	   
+	   var zelle4 = reihe.insertCell(4);
+		var zelle4_input = document.createElement('input');
+		zelle4_input.type = 'text';
+		zelle4_input.name = 'txtRow' + zaehler;
+	   zelle4_input.id = 'txtRow' + zaehler;
+	   zelle4_input.size = '5';
+	   zelle4_input.value = 'Stck';
+	   zelle4.appendChild(zelle4_input);
+	   
+	   var zelle5 = reihe.insertCell(5);
+		var zelle5_input = document.createElement('input');
+		zelle5_input.type = 'text';
+		zelle5_input.name = 'txtRow' + zaehler;
+	   zelle5_input.id = 'txtRow' + zaehler;
+	   zelle5.align = 'right';
+	   zelle5.value = '0';
+	   zelle5_input.size = '9';
+	   zelle5.appendChild(zelle5_input);
+	   
+	   var zelle6 = reihe.insertCell(6);
+		var zelle6_input = document.createElement('input');
+		zelle6.align = 'right';
+	   zelle6.onkeypress = naechste_reihe;
+	 	zelle6_input.value = '0';
+	   zelle6_input.type = 'text';
+		zelle6_input.name = 'txtRow' + zaehler;
+	   zelle6_input.id = 'txtRow' + zaehler;
+	  
+	   zelle6_input.size = '3';
+	   zelle6.appendChild(zelle6_input);
+	   
+	   var zelle7 = reihe.insertCell(7);
+	   var gesamt = document.createTextNode('0');
+	   zelle7.align = 'right';
+	   zelle7.appendChild(gesamt);
+	 	}
 
 }
 
