@@ -115,8 +115,8 @@ if($resultat == false) {
 <html>
 <body>
 
-<form id='rechnungform' name="rechnung" method="post">
-<table width="100%" border="1" id="tabelle_id">
+<form id='rechnungform' name="rechnung" method="post" action="rechnung_erfassen1.php">
+<table width="100%" border="0" id="tabelle_id">
 <tr>
 	<th colspan="8"><center>Rechnung erfassen</center></th>
 </tr>
@@ -237,14 +237,14 @@ for($i = 0;$i < $anz4; $i++) {
 	<td colspan="8">&nbsp;</td>
 </tr>
 <tr>
-	<td>Pos.</td>
-	<td>Artikelnummer</td>
-	<td>Artikelbezeichnung</td>
-	<td>Anzahl</td>
-	<td>Einheit</td>
-	<td>Preis</td>
-	<td>Rab.</td>
-	<td>Gesamt</td>
+	<td bgcolor="grey">Pos.</td>
+	<td bgcolor="grey">Artikelnummer</td>
+	<td bgcolor="grey">Artikelbezeichnung</td>
+	<td bgcolor="grey">Anzahl</td>
+	<td bgcolor="grey">Einheit</td>
+	<td bgcolor="grey">Preis</td>
+	<td bgcolor="grey">Rab.</td>
+	<td bgcolor="grey">Gesamt</td>
 </tr>
 
 <!-- php dynamisch -->
@@ -253,12 +253,12 @@ for($i = 0;$i < $anz4; $i++) {
 		<option>1</option>
 		<option>2</option>
 	</td>
-	<td><input name="art_nr_1" size=8 value=""></td>
-	<td><input name="bezeichnung_1" size=30 value="" onkeypress="suche(event)"></td>
-	<td align=right><input name="anzahl_1" size=5 value=1></td>
-	<td><input name="einheit_1" size=5 value="Stck"></td>
-	<td align=right><input name="verkaufspreis_1" size=9 value=0></td>
-	<td align=right><input name="rabatt_1" size=3 value=0 onkeypress="naechste_reihe(event)"></td>
+	<td><input name="art_nr_1" size="20" value=""></td>
+	<td><input name="bezeichnung_1" id="bez_id" size="30" value="" onkeyup="suche(event)"></td>
+	<td align=right><input name="anzahl_1" size="5" value=1></td>
+	<td><input name="einheit_1" size="5" value="Stck"></td>
+	<td align=right><input name="verkaufspreis_1" size="9" value=0></td>
+	<td align=right><input name="rabatt_1" size="3" value=0 onkeypress="naechste_reihe(event)">%</td>
 	<td align=right>0</td>
 </tr>
 
@@ -270,7 +270,7 @@ $test
 	<td colspan="8">&nbsp;</td>
 </tr>
 <tr>
-	<td colspan="5"><input type="submit" name="rechnung_buchen" value="Rechnung buchen" onClick="rechnung_erfassen1.php"></td>
+	<td colspan="5"><input type="submit" name="rechnung_buchen" value="Rechnung buchen" onClick=document.rechnung.submit()></td>
 </tr>
 </table>
 </form>
@@ -293,27 +293,28 @@ function naechste_reihe(e)
 		var tabelle = document.getElementById('tabelle_id');
 		var letzte_reihe = tabelle.rows.length;
 		letzte_reihe -= 2;
-		var zaehler = letzte_reihe;
+		//zahler minus 4 weil es noch reihen darueber gibt
+		var zaehler = letzte_reihe - 4;
 		var reihe = tabelle.insertRow(letzte_reihe);
 		
 		var zelle0 = reihe.insertCell(0);
 		var zelle0_select = document.createElement('select');
-		zelle0_select.name = 'selReihe' + zaehler;
-		zelle0_select.options[0] = new Option('3', 'drei');
+		zelle0_select.name = 'pos_' + zaehler;
+		zelle0_select.options[0] = new Option(zaehler, 'drei');
 		zelle0.appendChild(zelle0_select);
 		
 		var zelle1 = reihe.insertCell(1);
 		var zelle1_input = document.createElement('input');
 		zelle1_input.type = 'text';
-		zelle1_input.name = 'txtRow' + zaehler;
+		zelle1_input.name = 'art_nr_' + zaehler;
 	   zelle1_input.id = 'txtRow' + zaehler;
-	   zelle1_input.size = '8';
+	   zelle1_input.size = '20';
 	   zelle1.appendChild(zelle1_input);
 	   
 	   var zelle2 = reihe.insertCell(2);
 		var zelle2_input = document.createElement('input');
 		zelle2_input.type = 'text';
-		zelle2_input.name = 'txtRow' + zaehler;
+		zelle2_input.name = 'bezeichnung_' + zaehler;
 	   zelle2_input.id = 'txtRow' + zaehler;
 	   zelle2_input.size = '30';
 	   zelle2.appendChild(zelle2_input);
@@ -321,7 +322,7 @@ function naechste_reihe(e)
 	   var zelle3 = reihe.insertCell(3);
 		var zelle3_input = document.createElement('input');
 		zelle3_input.type = 'text';
-		zelle3_input.name = 'txtRow' + zaehler;
+		zelle3_input.name = 'anzahl_' + zaehler;
 	   zelle3_input.id = 'txtRow' + zaehler;
 	   zelle3_input.value = '1';
 	   zelle3.align = 'right';
@@ -331,7 +332,7 @@ function naechste_reihe(e)
 	   var zelle4 = reihe.insertCell(4);
 		var zelle4_input = document.createElement('input');
 		zelle4_input.type = 'text';
-		zelle4_input.name = 'txtRow' + zaehler;
+		zelle4_input.name = 'einheit_' + zaehler;
 	   zelle4_input.id = 'txtRow' + zaehler;
 	   zelle4_input.size = '5';
 	   zelle4_input.value = 'Stck';
@@ -340,7 +341,7 @@ function naechste_reihe(e)
 	   var zelle5 = reihe.insertCell(5);
 		var zelle5_input = document.createElement('input');
 		zelle5_input.type = 'text';
-		zelle5_input.name = 'txtRow' + zaehler;
+		zelle5_input.name = 'verkaufspreis_' + zaehler;
 	   zelle5_input.id = 'txtRow' + zaehler;
 	   zelle5.align = 'right';
 	   zelle5.value = '0';
@@ -353,11 +354,12 @@ function naechste_reihe(e)
 	   zelle6.onkeypress = naechste_reihe;
 	 	zelle6_input.value = '0';
 	   zelle6_input.type = 'text';
-		zelle6_input.name = 'txtRow' + zaehler;
+		zelle6_input.name = 'rabatt_' + zaehler;
 	   zelle6_input.id = 'txtRow' + zaehler;
-	  
+	   var prozent_text = document.createTextNode('%');
 	   zelle6_input.size = '3';
 	   zelle6.appendChild(zelle6_input);
+	   zelle6.appendChild(prozent_text);
 	   
 	   var zelle7 = reihe.insertCell(7);
 	   var gesamt = document.createTextNode('0');
@@ -374,21 +376,47 @@ function suche(e)
 	var e = e || event;
 	var ele = e.target || e.srcElement;
 	
-	if(e.keyCode == 13) {
 	
-		var inputfeld = ele.name;
-		//alert(inputfeld);
+	var idfeld = document.getElementById("bez_id");
 	
-		//suchwert ermitteln, falls es einen gibt
-		var inputwert = ele.value;
-		//alert(inputwert);
-		
-		var popupWindow = window.open(
-      'rechnung_suche.php','rechnung_suche_fenster',"width=450,height=300, screenY=250, screenX=300");
+	var url = window.location.href;
+	var url_array = url.split("/");
+	var nr = url_array.length;
+	
+	url_array[nr-1] = "rechnung_suche.jsp";
+	url = "";
+	for($i = 0; $i < nr; $i++) {
+		url += url_array[$i];
+		if($i < nr-1) {url += "/";}		
 	}
+			 
+	req = new XMLHttpRequest();
+	req.open("GET", url, true);
+   req.onreadystatechange = callback;
+   req.send(null);
 	
 }
 
+function callback() {
+   //alert(req.readyState);
+   
+    if (req.readyState == 4) {
+        if (req.status == 200) {
+            // update the HTML DOM based on whether or not message is valid
+            /*
+            var text = req.responseText;
+            var e = e || event;
+				var ele = e.target || e.srcElement;
+	
+				var idfeld = document.getElementById("bez_id");
+				idfeld.text = text;
+				*/
+				//var message = req.responseXML.getElementsByTagName("message")[0];
+				alert(req.responseText);
+        }
+    }
+    
+}
 
 
 </script>

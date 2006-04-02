@@ -8,21 +8,32 @@ $db = pg_connect($conn);
 
 pg_query("BEGIN TRANSACTION");
 
+//kundennr ermitteln
 $kundennr = $_POST['kunde'];
 $kundennr = explode('---', $kundennr);
 $kundennr = $kundennr[1];
-$rechnungsdatum = $_POST['rechnungsdatum'];
-$faelligkeitsdatum = $_POST['faelligkeitsdatum'];
 
-//datum in postgresql datum umwandeln
+//faelligkeitsdatum umwandeln in postgresql-date
+$faelligkeitsdatum = $_POST['faelligkeitsdatum'];
 $datum = explode('.', $faelligkeitsdatum);
 for($i = 2; $i >= 0; $i--) {
 	$pg_datum .= $datum[$i];
 	if($i > 0) {$pg_datum .= '-';};
 }
-
 $faelligkeitsdatum = $pg_datum;
+$pg_datum = "";
 
+//rechnungsdatum umwandeln in postgresql-date
+$rechnungsdatum = $_POST['rechnungsdatum'];
+$datum = explode('.', $rechnungsdatum);
+for($i = 2; $i >= 0; $i--) {
+	$pg_datum .= $datum[$i];
+	if($i > 0) {$pg_datum .= '-';};
+}
+$rechnungsdatum = $pg_datum;
+
+
+//rechnung eintragen, es gibt nur eine rechnung, aber mehrere verkaufsobjekte, rechnung_vo
 $query = "INSERT INTO rechnung(kunde_id, rechnungsdatum, faelligkeitsdatum)".
 			" VALUES($kundennr, '$rechnungsdatum', '$faelligkeitsdatum')";
 			
@@ -49,7 +60,16 @@ if($resultat == false) {
 //preise_id wird aus tabelle preise(id) geholt geholt
 //buchungskonto_id wird aus konten(id) geholt
 //fake anz_vo
-$anz_vo = 1;
+
+//ermitteln der anzahl von reihen
+$i = 1;
+while($_POST["pos_$i"] != "" && $_POST["bezeichnung_$i"] != "") {
+$i++;
+}
+$anz_vo = $i - 1;
+
+//wenn es keine artikel gibt, wird auch keine rechnung gebucht, KO macht zum schluss ROLLBACK
+if($anz_vo == 0) { $db_ok = "KO";}
 
 if($db_ok != "KO") {
 for($i = 1; $i <= $anz_vo; $i++) {
@@ -94,6 +114,7 @@ for($i = 1; $i <= $anz_vo; $i++) {
 	
 	//ermitteln von vo_preise_id ueber tabelle verkaufsobjekt
 	$query = "SELECT p.id FROM verkaufsobjekt v, preise p WHERE v.preise_id = p.id AND v.id = $vo_id";
+	
 	$resultat = pg_query($query);
 	if($resultat == false) {
 		print "fehler select vo_preise_id";
@@ -123,7 +144,8 @@ for($i = 1; $i <= $anz_vo; $i++) {
 	
 	$query = "INSERT INTO rechnung_vo(rechnung_id, vo_id, vo_preise_id, buchungskonto_id, anzahl, rabatt)" .
 				"VALUES($serial_prim_key, $vo_id, $vo_preise_id, $buchungskonto_id, $anzahl, $rabatt)";
-				
+		
+		
 	$result = pg_query($query);
 	if($result == false) {
 		$db_ok = "KO";
@@ -137,7 +159,7 @@ if($db_ok == "KO") {
 	print "Fehler beim buchen der Rechnung";
 } else {
 	pg_query("COMMIT");
-	print "Rechnung erfolgreich gebucht"
+	print "Rechnung erfolgreich gebucht";
 }
 
 

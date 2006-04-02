@@ -1,4 +1,4 @@
-apt-get install postgresql php4-pgsql apache2 libapache2-mod-php4 libapache2-mod-auth-pgsqlphp4 php4-dev
+apt-get install libservlet2.3-java postgresql php4-pgsql apache2 libapache2-mod-php4 libapache2-mod-auth-pgsqlphp4 php4-dev
 
 
 --db
@@ -11,3 +11,4 @@ grant all on go_name_id_seq to group unternehmer (kunde erfassen)
 
 -automatisiert mit datei
 psql d -f /path/to/file.sql
+
