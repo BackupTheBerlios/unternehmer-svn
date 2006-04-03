@@ -391,6 +391,7 @@ function suche(e)
 	}
 			 
 	req = new XMLHttpRequest();
+	req.overrideMimeType('text/xml');
 	req.open("GET", url, true);
    req.onreadystatechange = callback;
    req.send(null);

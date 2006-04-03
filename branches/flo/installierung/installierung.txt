@@ -1,4 +1,4 @@
-apt-get install libservlet2.3-java postgresql php4-pgsql apache2 libapache2-mod-php4 libapache2-mod-auth-pgsqlphp4 php4-dev
+apt-get install apache2-threaded-dev libapache2-mod-jk2 libservlet2.3-java postgresql php4-pgsql apache2 libapache2-mod-php4 libapache2-mod-auth-pgsqlphp4 php4-dev
 
 
 --db
