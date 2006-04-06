@@ -24,8 +24,19 @@ CREATE TABLE "adresse" (
 	"id" integer NOT NULL REFERENCES go_name(id),
 	"strasse" character varying(50),
 	"hausnr" character varying(50),
+	"ort_id" integer REFERENCES ort(id)
+);
+
+CREATE TABLE "ort" (
+	"id" SERIAL PRIMARY KEY,
 	"plz" character varying(50),
 	"stadt" character varying(50),
+	"land_id" integer NOT NULL REFERENCES land(id)
+
+);
+
+CREATE TABLE "land" (
+	"id" SERIAL PRIMARY KEY,
 	"land" character varying(50)
 );
 
