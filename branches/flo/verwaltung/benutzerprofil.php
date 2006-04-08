@@ -58,6 +58,9 @@ for($i = 0; $i < pg_num_rows($resultat);$i++) {
 </tr>
 <tr>
 	<td colspan="3"><h2>Rechnung erfassen</td>
+</tr>
+<tr>
+	<td>Standard Maske um eine Rechnung zu erfassen</td>
 	<td><input type="radio"></td>
 	<td><a href="../bilder/rechnung_erfassen.jpg"><img src="../bilder/rechnung_erfassen_klein.jpg"></a></td>
 </tr>
