@@ -29,8 +29,11 @@
 	<td colspan="2">Mandanten Daten</td>
 </tr>
 <tr>
+	<td align="right">Mandantenname</td>
+	<td><input type="text" name="mandantenname"></td>
+<tr>
 	<td align="right">Firmenname</td>
-	<td><input type="text" name="firmenname"><td>
+	<td><input type="text" name="firmenname"></td>
 </tr>
 <tr>
 	<td align="right">Vorname</td>

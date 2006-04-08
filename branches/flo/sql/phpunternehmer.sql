@@ -1,53 +1,6 @@
--- ein mandant ist z.b. firma mueller, und firma schmidt, die man betreut. Man kann fuer mehrere
--- personen, firmen eine db anlegen, also in der tabelle mandant gibt es immer nur einen eintrag
--- weil eine db zu einem mandanten gehoert
-CREATE TABLE "mandant" (
+CREATE TABLE "land" (
 	"id" SERIAL PRIMARY KEY,
-	"go_name_id" integer NOT NULL REFERENCES go_name(id),
-	"adresse_id" integer NOT NULL REFERENCES adresse(id)
-);
-
-CREATE TABLE "go_name" (
-	"id" SERIAL PRIMARY KEY,
-	"firmenname" character varying(50),
-	"vorname" character varying(50),
-	"nachname" character varying(50)
-);
-
-CREATE TABLE "geschaeftsobjekt" (
-	"go_name_id" integer NOT NULL REFERENCES go_name(id),
-	"adresse_id" integer REFERENCES adresse(id)
-);
-
--- ein angestellter kann auch programmbenutzer sein, daher pg_shadow_usesysid referenz
--- wenn angestellter programmbenutzer ist, braucht er eine programmoberflaeche
--- programmoberflaeche heist, man kann mehrere verschiedene front-end seiten bauen und auswahlen
--- welche man benutzen moechte. jeder user seine eigene, und zu jedem mandant auch nochmal eine eigene
--- weil man unterschiedliche mandanten haben kann, welche unterschiedliche aufgaben/programmoeberflaechen
--- benoetigen.
-CREATE TABLE "angestellte" (
-	"go_name_id" integer  NOT NULL REFERENCES go_name(id),
-	"adresse_id" integer REFERENCES adresse(id),
-	"programmoeberflaeche_id" integer REFERENCES programmoberflaeche(id),
-	"pg_shadow_usesysid" integer REFERENCES pg_user(usesysid)
-);
-
-CREATE TABLE "programmoberflaeche" (
-	"id" SERIAL PRIMARY KEY,
-	"kundeerfassen" integer NOT NULL DEFAULT 1,
-	"wareerfassen" integer NOT NULL DEFAULT 1,
-	"rechnungerfassen" integer NOT NULL DEFAULT 1
-);
-
-CREATE TABLE "kontakt" (
-	"go_name_id" integer NOT NULL REFERENCES go_name(id)
-);
-
-CREATE TABLE "adresse" (
-	"id" integer NOT NULL REFERENCES go_name(id),
-	"strasse" character varying(50),
-	"hausnr" character varying(50),
-	"ort_id" integer REFERENCES ort(id)
+	"land" character varying(50)
 );
 
 CREATE TABLE "ort" (
@@ -58,15 +11,77 @@ CREATE TABLE "ort" (
 
 );
 
-CREATE TABLE "land" (
+CREATE TABLE "go_name" (
 	"id" SERIAL PRIMARY KEY,
-	"land" character varying(50)
+	"firmenname" character varying(50),
+	"vorname" character varying(50),
+	"nachname" character varying(50)
+);
+
+CREATE TABLE "adresse" (
+	"id" SERIAL PRIMARY KEY,
+	"go_name_id" integer NOT NULL REFERENCES go_name(id),
+	"strasse" character varying(50),
+	"hausnr" character varying(50),
+	"ort_id" integer REFERENCES ort(id)
+);
+
+
+CREATE TABLE "geschaeftsobjekt" (
+	"go_name_id" integer NOT NULL REFERENCES go_name(id),
+	"adresse_id" integer REFERENCES adresse(id),
+	"ist_kunde" boolean,
+	"ist_lieferant" boolean
+);
+
+CREATE TABLE "programmoberflaeche" (
+	"id" SERIAL PRIMARY KEY,
+	"kundeerfassen" integer NOT NULL DEFAULT 1,
+	"wareerfassen" integer NOT NULL DEFAULT 1,
+	"rechnungerfassen" integer NOT NULL DEFAULT 1
+);
+
+-- ein angestellter kann auch programmbenutzer sein, daher pg_shadow_usesysid referenz
+-- wenn angestellter programmbenutzer ist, braucht er eine programmoberflaeche
+-- programmoberflaeche heist, man kann mehrere verschiedene front-end seiten bauen und auswahlen
+-- welche man benutzen moechte. jeder user seine eigene, und zu jedem mandant auch nochmal eine eigene
+-- weil man unterschiedliche mandanten haben kann, welche unterschiedliche aufgaben/programmoeberflaechen
+-- benoetigen.
+-- man kann keine system-tables referenzieren, also muss pg_shadow_usesysid mit php-code erledigt werden
+CREATE TABLE "angestellte" (
+	"go_name_id" integer  NOT NULL REFERENCES go_name(id),
+	"adresse_id" integer REFERENCES adresse(id),
+	"programmoeberflaeche_id" integer REFERENCES programmoberflaeche(id),
+	"pg_shadow_usesysid" integer 
+);
+
+CREATE TABLE "kontakt" (
+	"go_name_id" integer NOT NULL REFERENCES go_name(id)
+);
+
+
+-- ein mandant ist z.b. firma mueller, und firma schmidt, die man betreut. Man kann fuer mehrere
+-- personen, firmen eine db anlegen, also in der tabelle mandant gibt es immer nur einen eintrag
+-- weil eine db zu einem mandanten gehoert
+CREATE TABLE "mandant" (
+	"id" SERIAL PRIMARY KEY,
+	"go_name_id" integer NOT NULL REFERENCES go_name(id),
+	"adresse_id" integer NOT NULL REFERENCES adresse(id)
 );
 
 CREATE TABLE "hersteller" (
 	"id" SERIAL PRIMARY KEY,
 	"hersteller" character varying(50),
 	"modell" character varying(50)
+);
+
+-- hier stehen dann die arten (in welchem auswahlfeld) ein konto stehen soll
+-- problem: wenn man verschiedene user haben, die aber verschieden die konten sotieren
+-- alle user greifen auf dieselbe tabelle zu
+CREATE TABLE "kontenart" (
+	"id" SERIAL PRIMARY KEY,
+	"erloeskonto" boolean,
+	"aufwandskonto" boolean
 );
 
 -- hier kommen konten wie 8400,3400 usw rein
@@ -78,14 +93,6 @@ CREATE TABLE "konten" (
 	"kontenart_id" integer REFERENCES kontenart(id)
 );
 
--- hier stehen dann die arten (in welchem auswahlfeld) ein konto stehen soll
--- problem: wenn man verschiedene user haben, die aber verschieden die konten sotieren
--- alle user greifen auf dieselbe tabelle zu
-CREATE TABLE "kontenart" (
-	"id" SERIAL PRIMARY KEY,
-	"erloeskonto" boolean,
-	"aufwandskonto" boolean
-);
 
 CREATE TABLE "preise" (
 	"id" SERIAL PRIMARY KEY,
@@ -118,6 +125,15 @@ CREATE TABLE "verkaufsobjekt" (
 	"hersteller_id" integer REFERENCES hersteller(id),
 	"vo_details_id" integer REFERENCES vo_details(id)
 );
+
+CREATE TABLE "rechnung" (
+	"id" SERIAL PRIMARY KEY,
+	"kunde_id" integer NOT NULL REFERENCES go_name(id),
+	"rechnungsdatum" date DEFAULT date ('now'::text),
+	"faelligkeitsdatum" date
+);
+
+
 -- besseren namen finden
 CREATE TABLE "rechnung_bezahlt" (
 	"id" SERIAL PRIMARY KEY,
@@ -128,13 +144,6 @@ CREATE TABLE "rechnung_bezahlt" (
 	"erloeskonto_id" integer NOT NULL REFERENCES konten(id)
 );
 
-
-CREATE TABLE "rechnung" (
-	"id" SERIAL PRIMARY KEY,
-	"kunde_id" integer NOT NULL REFERENCES go_name(id),
-	"rechnungsdatum" date DEFAULT date ('now'::text),
-	"faelligkeitsdatum" date
-);
 
 
 CREATE TABLE "rechnung_vo" (
@@ -149,23 +158,22 @@ CREATE TABLE "rechnung_vo" (
 
 -- an welche gruppe muesste automatisch vergeben werden, der mandantenname. dann bruacht man
 -- angestellte nur in diese gruppe schmeissen und sie haben nur zugriff auf diese db
-GRANT ALL ON kontakt TO GROUP unternehmer;
-GRANT ALL ON waehrung TO GROUP unternehmer;
-grant all on rechnung_bezahlt to group unternehmer;
-grant all on rechnung_bezahlt_id_seq to group unternehmer;
-grant all on rechnung_vo to group unternehmer;
-grant all on rechnung to group unternehmer;
-grant all on rechnung_id_seq to group unternehmer;
-GRANT ALL ON angestellte TO GROUP unternehmer;
-GRANT ALL ON go_name to group unternehmer;
-grant all on database d to group unternehmer;
-grant all on go_name_id_seq to group unternehmer; 
-grant all on adresse to group unternehmer;
-grant all on preise to group unternehmer;
-grant all on konten to group unternehmer;
-grant all on verkaufsobjekt to group unternehmer;
-grant all on preise_id_seq to group unternehmer;
-grant all on konten_id_seq to group unternehmer;
-grant all on hersteller_id_seq to group unternehmer;
-grant all on verkaufsobjekt_id_seq to group unternehmer;
-grant all on vo_details_id_seq to group unternehmer;
+GRANT ALL ON kontakt TO GROUP xyz;
+GRANT ALL ON waehrung TO GROUP xyz;
+grant all on rechnung_bezahlt to group xyz;
+grant all on rechnung_bezahlt_id_seq to group xyz;
+grant all on rechnung_vo to group xyz;
+grant all on rechnung to group xyz;
+grant all on rechnung_id_seq to group xyz;
+GRANT ALL ON go_name to group xyz;
+grant all on database d to group xyz;
+grant all on go_name_id_seq to group xyz; 
+grant all on adresse to group xyz;
+grant all on preise to group xyz;
+grant all on konten to group xyz;
+grant all on verkaufsobjekt to group xyz;
+grant all on preise_id_seq to group xyz;
+grant all on konten_id_seq to group xyz;
+grant all on hersteller_id_seq to group xyz;
+grant all on verkaufsobjekt_id_seq to group xyz;
+grant all on vo_details_id_seq to group xyz;

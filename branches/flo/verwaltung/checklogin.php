@@ -5,7 +5,7 @@ session_start();
 if( $_POST['loginname'] == "" || $_POST['passwort'] == "" || $_POST['dbname'] == "") {
 
 //wenn was fehlt, zurueck zu login
-include "/var/www/unternehmer/branches/flo/login.php";
+include "/var/www/unternehmer/branches/flo/verwaltung/login.php";
 
 } else {
 
@@ -41,7 +41,7 @@ $resultat = @pg_query($query);
 if( $resultat == false || pg_numrows($resultat) < 1) {
 	$fehlermeldung .= 'Benutzer oder Passwort existiert nicht';
 	print $fehlermeldung;
-	include "/var/www/unternehmer/branches/flo/login.php";
+	include "/var/www/unternehmer/branches/flo/verwaltung/login.php";
 }
 
 //loginname und passwort existieren, login erlaubt
@@ -49,7 +49,7 @@ if( $resultat == false || pg_numrows($resultat) < 1) {
 //noch zusaetzlich ueberpruefen ob er berechtigungen fuer zugriff auf db hat, wegen mandantenfaehigkeit
 //es gibt ja mehrere mandanten/tabellen
 if( pg_num_rows($resultat) == 1) {
-	include "/var/www/unternehmer/branches/flo/menu.php";
+	include "/var/www/unternehmer/branches/flo/verwaltung/menu.php";
 }
 
 }
