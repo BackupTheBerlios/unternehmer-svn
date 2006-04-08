@@ -47,10 +47,21 @@ CREATE TABLE "hersteller" (
 );
 
 -- hier kommen konten wie 8400,3400 usw rein
+-- in die tabelle kontenart, kann man festlegen in welchen auswahlfeldern dieses konto erscheinen soll
 CREATE TABLE "konten" (
 	"id" SERIAL PRIMARY KEY,
 	"kontennr" integer NOT NULL,
-	"kontenbezeichnung" character varying(100)
+	"kontenbezeichnung" character varying(100),
+	"kontenart_id" integer REFERENCES kontenart(id)
+);
+
+-- hier stehen dann die arten (in welchem auswahlfeld) ein konto stehen soll
+-- problem: wenn man verschiedene user haben, die aber verschieden die konten sotieren
+-- alle user greifen auf dieselbe tabelle zu
+CREATE TABLE "kontenart" (
+	"id" SERIAL PRIMARY KEY,
+	"erloeskonto" boolean,
+	"aufwandskonto" boolean
 );
 
 CREATE TABLE "preise" (
