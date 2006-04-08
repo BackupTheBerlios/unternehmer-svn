@@ -21,6 +21,24 @@
 ?>
 <td><select></select></td>
 </tr>
+<tr><td colspan="3"><hr></td>
+</tr>
+<tr>
+	<td colspan="3"><center><h2>Programmoberfl&auml;che</h2></center></td>
+<tr>
+<tr>	
+	<td colspan="3"><h2>Kunde erfassen</h2></td>
+</tr>
+<tr>
+	<td>Standard Maske um einen Kunden zu erfassen</td>
+	<td><input type="radio"></td>
+	<td><a href="../bilder/kunde_erfassen.jpg"><img src="../bilder/kunde_erfassen_klein.jpg"></a></td>
+</tr>
+<tr>
+	<td colspan="3"><center><input type="submit" name="speichern" value="Speichern"></center></td>
+</tr>
+	
+
 </table>
 	
 </body>

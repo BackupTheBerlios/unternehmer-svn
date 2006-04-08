@@ -23,8 +23,45 @@
 	<td><input type="password" name="passwort"></td>
 </tr>
 <tr>
-	<td><p></td>
+	<td><hr></td>
 </tr>
+<tr>
+	<td colspan="2">Mandanten Daten</td>
+</tr>
+<tr>
+	<td align="right">Firmenname</td>
+	<td><input type="text" name="firmenname"><td>
+</tr>
+<tr>
+	<td align="right">Vorname</td>
+	<td><input type="text" name="vorname"></td>
+</tr>
+<tr>
+	<td align="right">Nachname</td>
+	<td><input type="text" name="nachname"></td>
+</tr>
+<tr>
+	<td align="right">Strasse</td>
+	<td><input type="text" name="strasse"></td>
+</tr>
+<tr>
+	<td align="right">Stadt</td>
+	<td><input type="text" name="stadt"></td>
+</tr>
+<tr>
+	<td align="right">Land</td>
+	<td><input type="text" name="land"></td>
+</tr>
+<tr>
+	<td align="right">Steuernummer</td>
+	<td><input type="text" name="steuernr"></td>
+</tr>
+<tr>
+	<td align="right">undsoweiter</td>
+	<td><input type="text" name=""></td>
+</tr>
+
+
 <tr>
 	<td><p></td>
 </tr>
