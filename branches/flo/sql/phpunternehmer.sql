@@ -1,3 +1,12 @@
+-- ein mandant ist z.b. firma mueller, und firma schmidt, die man betreut. Man kann fuer mehrere
+-- personen, firmen eine db anlegen, also in der tabelle mandant gibt es immer nur einen eintrag
+-- weil eine db zu einem mandanten gehoert
+CREATE TABLE "mandant" (
+	"id" SERIAL PRIMARY KEY,
+	"go_name_id" integer NOT NULL REFERENCES go_name(id),
+	"adresse_id" integer NOT NULL REFERENCES adresse(id)
+);
+
 CREATE TABLE "go_name" (
 	"id" SERIAL PRIMARY KEY,
 	"firmenname" character varying(50),
@@ -6,18 +15,32 @@ CREATE TABLE "go_name" (
 );
 
 CREATE TABLE "geschaeftsobjekt" (
-	"name_id" integer NOT NULL REFERENCES go_name(id),
-	"adresse_id" integer
+	"go_name_id" integer NOT NULL REFERENCES go_name(id),
+	"adresse_id" integer REFERENCES adresse(id)
 );
 
+-- ein angestellter kann auch programmbenutzer sein, daher pg_shadow_usesysid referenz
+-- wenn angestellter programmbenutzer ist, braucht er eine programmoberflaeche
+-- programmoberflaeche heist, man kann mehrere verschiedene front-end seiten bauen und auswahlen
+-- welche man benutzen moechte. jeder user seine eigene, und zu jedem mandant auch nochmal eine eigene
+-- weil man unterschiedliche mandanten haben kann, welche unterschiedliche aufgaben/programmoeberflaechen
+-- benoetigen.
 CREATE TABLE "angestellte" (
-	"name_id" integer  NOT NULL REFERENCES go_name(id),
+	"go_name_id" integer  NOT NULL REFERENCES go_name(id),
 	"adresse_id" integer REFERENCES adresse(id),
+	"programmoeberflaeche_id" integer REFERENCES programmoberflaeche(id),
 	"pg_shadow_usesysid" integer REFERENCES pg_user(usesysid)
 );
 
+CREATE TABLE "programmoberflaeche" (
+	"id" SERIAL PRIMARY KEY,
+	"kundeerfassen" integer NOT NULL DEFAULT 1,
+	"wareerfassen" integer NOT NULL DEFAULT 1,
+	"rechnungerfassen" integer NOT NULL DEFAULT 1
+);
+
 CREATE TABLE "kontakt" (
-	"name_id" integer NOT NULL REFERENCES go_name(id)
+	"go_name_id" integer NOT NULL REFERENCES go_name(id)
 );
 
 CREATE TABLE "adresse" (
@@ -124,7 +147,8 @@ CREATE TABLE "rechnung_vo" (
 	"rabatt" integer DEFAULT 0
 );
 
-
+-- an welche gruppe muesste automatisch vergeben werden, der mandantenname. dann bruacht man
+-- angestellte nur in diese gruppe schmeissen und sie haben nur zugriff auf diese db
 GRANT ALL ON kontakt TO GROUP unternehmer;
 GRANT ALL ON waehrung TO GROUP unternehmer;
 grant all on rechnung_bezahlt to group unternehmer;
