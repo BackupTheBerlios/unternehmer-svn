@@ -166,6 +166,10 @@ if( $resultat == false) {
 	$db_ok = "KO";
 	include "/var/www/unternehmer/branches/flo/benutzeranlegen.php";
 }
+
+//hier muesste noch ein eintrag fuer mandant hin, welche db er zugriff hat
+
+
 //wenn nichts ein fehler ergab, dann fuhre die transaction jetzt aus
 pg_query("COMMIT");
 } //ende if

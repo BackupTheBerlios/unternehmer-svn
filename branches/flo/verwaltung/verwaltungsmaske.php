@@ -47,9 +47,9 @@ if( $resultat == false) {
 	<td bgcolor="grey">Vorname</td>
 	<td bgcolor="grey">Nachname</td>
 	<td bgcolor="grey">Loginname</td>
-	<td bgcolor="grey">Firma</td>
+	<td bgcolor="grey">Mandant</td>
 	<td bgcolor="grey">Datenbankcomputer</td>
-	<td bgcolor="grey">Datenbank</td>
+	<td bgcolor="grey">Datenbankname</td>
 </tr>
 <!-- hier kommen die flexiblen rows mit den benutzern dann automatisch -->
 <?php
@@ -66,16 +66,27 @@ for($i = 0; $i < $anzahl; $i++) { ?>
 
 
 <tr>
-	<td colspan="6"><hr><td>
+	<td colspan="6"><hr></td>
 </tr>
 
 <!-- Buttons -->
 <tr>
+	<td>Hier k&ouml;nnen Sie einen neuen Benutzer anlegen</td>
+</tr>
+<tr>
 	<form method="post" name="benutzererfassen" action="benutzererfassen.php">
-	<td align="right"><input type="submit" value="Benutzer erfassen" name="benutzererfassen"></td>
-	</form>
-	<form method="post" name="datenbankadministration" action="datenbankadministration.php">
-	<td><input type="submit" value="Datenbankadministration" name="datenbankadministration"></td>
+	<td align="right"><input type="submit" value="Benutzer erfassen" name="benutzererfassen"></form>
+	</td>
+</tr>
+<tr>
+	<td colspan="6"><hr></td>
+</tr>
+<tr>
+	<td>Hier k&ouml;nnen Sie einen neuen Mandanten anlegen</td>
+</tr>
+<tr>
+	<form method="post" name="mandanterfassen" action="mandant_erfassen.php">
+	<td align="right"><input type="submit" value="Mandant erfassen" name="mandanterfassen"></td>
 	</form>
 </tr>
 
@@ -94,7 +105,11 @@ for($i = 0; $i < $anzahl; $i++) { ?>
 <tr>
 	<td align="right">Passwort</td>
 	<td><input name="passwort" type="text"></td>
-	</tr>
+</tr>
+<tr>
+	<td align="right">Datenbankname</td>
+	<td><input name="datenbankname" type="text"></td>
+</tr>
 <tr>
 	<td align="right"><input type="submit" value="Anmelden" name="anmelden"></td>
 </tr>

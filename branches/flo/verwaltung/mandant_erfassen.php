@@ -1,10 +1,10 @@
 <html>
 <body>
 
-<form method="post" action="datenbankanlegen.php">
+<form method="post" action="mandant_erfassen-sql.php">
 <table width="100%" border="0">
 <tr>
-	<td colspan="2"><center><h2>Datenbankadministration</h2></center></td>
+	<td colspan="2"><center><h2>Mandant erfassen</h2></center></td>
 </tr>
 <tr>
 	<td align="right">Datenbankcomputer</td>
@@ -29,8 +29,8 @@
 	<td><p></td>
 </tr>
 <tr>
-	<td align="right"><input type="submit" name="datenbankanlegen" value="Datenbank anlegen"></form></td>
-	<td><form method="post" action="datenbankloeschen.php"><input type="submit" name="datenbankloeschen" value="Datenbank l&ouml;schen"></form></td>
+	<td align="right"><input type="submit" name="mandanterfassen" value="Mandant erfassen"></form></td>
+	<td><form method="post" action="mandantloeschen.php"><input type="submit" name="mandantloeschen" value="Mandant l&ouml;schen"></form></td>
 </tr>
 </table>
 

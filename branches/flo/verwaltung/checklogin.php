@@ -45,6 +45,9 @@ if( $resultat == false || pg_numrows($resultat) < 1) {
 }
 
 //loginname und passwort existieren, login erlaubt
+
+//noch zusaetzlich ueberpruefen ob er berechtigungen fuer zugriff auf db hat, wegen mandantenfaehigkeit
+//es gibt ja mehrere mandanten/tabellen
 if( pg_num_rows($resultat) == 1) {
 	include "/var/www/unternehmer/branches/flo/menu.php";
 }
