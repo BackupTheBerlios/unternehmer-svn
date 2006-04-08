@@ -1,7 +1,7 @@
 <html>
 <body>
 <table width="100%" border="1">
-<form method="post" action="kunde_erfassen1.php">
+<form method="post" action="kunde_erfassen-sql.php">
 <tr>
 	<td colspan="2"><h2><center>Kunde erfassen<center></h2></td>
 </tr>

@@ -115,7 +115,7 @@ if($resultat == false) {
 <html>
 <body>
 
-<form id='rechnungform' name="rechnung" method="post" action="rechnung_erfassen1.php">
+<form id='rechnungform' name="rechnung" method="post" action="rechnung_erfassen-sql.php">
 <table width="100%" border="0" id="tabelle_id">
 <tr>
 	<th colspan="8"><center>Rechnung erfassen</center></th>
@@ -383,7 +383,7 @@ function suche(e)
 	var url_array = url.split("/");
 	var nr = url_array.length;
 	
-	url_array[nr-1] = "rechnung_suche.jsp";
+	url_array[nr-1] = "rechnung_suche-1.jsp";
 	url = "";
 	for($i = 0; $i < nr; $i++) {
 		url += url_array[$i];

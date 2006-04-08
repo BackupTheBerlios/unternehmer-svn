@@ -1,6 +1,6 @@
 <html>
 <body>
-<form method="post" action="ware_erfassen1.php">
+<form method="post" action="ware_erfassen-sql.php">
 <table width="100%" border="0">
 <tr><td colspan="2"><div align="center"><h2>Ware erfassen</h2></div></td></tr>
 <tr>
