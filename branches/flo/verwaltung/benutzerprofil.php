@@ -14,7 +14,12 @@
 </tr>
 <tr>
 	<td>Mandant</td>
-	<td><input type="text"></td>
+<?php
+//mandant heist, man schmeisst jemanden in dessen gruppe, so das er zugriff auf diese mandanten-db hat
+//d.h. man legt dessen pg_user(usesysid) in pg_group(grolist)
+//mandanten holt man aus pg_group(groname)
+?>
+<td><select></select></td>
 </tr>
 </table>
 	
