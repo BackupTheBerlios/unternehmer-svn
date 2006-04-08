@@ -57,7 +57,7 @@ for($i = 0; $i < $anzahl; $i++) { ?>
 	<tr>
 		<td><?php print $vornamen[$i] ?></td>
 		<td><?php print $nachnamen[$i] ?></td>
-		<td><?php print $loginnamen[$i] ?></td>
+		<td><a href="benutzerprofil.php?loginname=<?php print $loginnamen[$i] ?>"><?php print $loginnamen[$i] ?></a></td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
