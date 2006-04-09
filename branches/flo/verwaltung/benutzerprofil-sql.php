@@ -60,7 +60,7 @@ if($resultat == false) {
 		print "Alles erfolgreich<br>";
 	}
 	
-
+print $_POST['kundeerfassen'];
 }
 
 

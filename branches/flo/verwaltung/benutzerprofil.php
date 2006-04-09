@@ -80,12 +80,12 @@ for($i = 0; $i < pg_num_rows($resultat);$i++) {
 </tr>
 <tr>
 	<td>Standard Maske um einen Kunden zu erfassen</td>
-	<td><input type="radio" name="kunde_erfassen" value="1"></td>
+	<td><input type="radio" name="kundeerfassen" value="1"></td>
 	<td><a href="../bilder/kunde_erfassen.jpg"><img src="../bilder/kunde_erfassen_klein.jpg"></a></td>
 </tr>
 <tr>
 	<td>Maske mit z.B. besserem layout, noch nicht vorhanden</td>
-	<td><input type="radio" name="kunde_erfassen" value="2"></td>
+	<td><input type="radio" name="kundeerfassen" value="2"></td>
 	<td><img src="../bilder/x.jpg"</td>
 </tr>
 <tr>

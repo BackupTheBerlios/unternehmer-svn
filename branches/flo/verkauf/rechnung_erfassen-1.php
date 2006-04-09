@@ -34,7 +34,7 @@ if($resultat == false) {
 //ende html-select fuer kunde
 
 //html select feld fuer verkaeufer fuellen
-$query = "SELECT g.vorname, g.nachname, g.id, a.name_id FROM go_name g, angestellte a WHERE g.id = a.name_id";
+$query = "SELECT g.vorname, g.nachname, g.id, a.go_name_id FROM go_name g, angestellte a WHERE g.id = a.go_name_id";
 
 $resultat = pg_query($query);
 if($resultat == false) {
@@ -93,7 +93,7 @@ if($resultat == false) {
 //ende html select
 
 //html select feld fuer kontakt
-$query = "SELECT g.vorname, g.nachname, g.id, k.name_id FROM go_name g, kontakt k WHERE g.id = k.name_id";
+$query = "SELECT g.vorname, g.nachname, g.id, k.go_name_id FROM go_name g, kontakt k WHERE g.id = k.go_name_id";
 
 $resultat = pg_query($query);
 if($resultat == false) {

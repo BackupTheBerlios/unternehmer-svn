@@ -158,6 +158,7 @@ CREATE TABLE "rechnung_vo" (
 
 -- an welche gruppe muesste automatisch vergeben werden, der mandantenname. dann bruacht man
 -- angestellte nur in diese gruppe schmeissen und sie haben nur zugriff auf diese db
+-- xyz wird vom mandant-erfassen script ersetzt durch mandantenname
 GRANT ALL ON kontakt TO GROUP xyz;
 GRANT ALL ON waehrung TO GROUP xyz;
 grant all on rechnung_bezahlt to group xyz;
@@ -177,3 +178,4 @@ grant all on konten_id_seq to group xyz;
 grant all on hersteller_id_seq to group xyz;
 grant all on verkaufsobjekt_id_seq to group xyz;
 grant all on vo_details_id_seq to group xyz;
+GRANT ALL ON angestellte TO GROUP xyz;
