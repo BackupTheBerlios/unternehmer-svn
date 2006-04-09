@@ -39,13 +39,32 @@ if($resultat == false) {
 	<td>Berechtigung f&uuml;r Mandant(en)</td>
 	<td>
 <?php
-
-$query = "SELECT groname FROM pg_group";
+$query = "SELECT usesysid FROM pg_user WHERE usename='$loginname'";
 $resultat = pg_query($query);
+$array = pg_fetch_row($resultat, NULL, PGSQL_NUM);
+$loginuid = $array[0];
+
+$query = "SELECT groname,grolist FROM pg_group";
+$resultat = pg_query($query);
+$k = 0;
+$l = 1;
 for($i = 0; $i < pg_num_rows($resultat);$i++) {
+	
 	$mandant = pg_fetch_array($resultat, NULL, PGSQL_NUM);
-	$html_mandanten[$i] = "<input type=checkbox name=$mandant[0]>$mandant[0]<br>";
-	print $html_mandanten[$i];
+	for($j = 0; $j < strlen($mandant[1]); $j++) {
+		if($mandant[1][$j] == $loginuid) {
+			$html_mandanten[$k] = "<input type=checkbox name=$mandant[0] checked>$mandant[0]<br>";
+			print $html_mandanten[$k];
+			$k++;
+			$l = 0;
+		} 
+	}
+	if($l == 1) {
+		$html_mandanten[$k] = "<input type=checkbox name=$mandant[0]>$mandant[0]<br>";
+		print $html_mandanten[$k];
+		$k++;
+		$l = 1;
+	}
 }
 ?>
 </td>
