@@ -126,7 +126,11 @@ function land_erfassen($land) {
 }
 
 function ort_erfassen($stadt, $plz, $land_id) {
-	$query = "INSERT INTO ort VALUES('$stadt', '$plz', '$land_id')";
+	if($land_id == "") {
+		$query = "INSERT INTO ort(plz, stadt) VALUES('$stadt', '$plz')";
+	} else {
+		$query = "INSERT INTO ort(plz, stadt, land) VALUES('$stadt', '$plz', '$land_id')";
+	}
 	$resultat = pg_query($query);
 	if($resultat == false) {
 		return("KO");
@@ -147,8 +151,6 @@ function ort_erfassen($stadt, $plz, $land_id) {
 }
 
 function adresse_erfassen($go_name_id, $strasse, $hausnr, $ort_id) {
-	print "hey";
-	if($ort_id == "") {print "ho";}
 	if( $ort_id == "" ) {
 		$query = "INSERT INTO adresse(go_name_id, strasse, hausnr) " .
 		"VALUES($go_name_id, '$strasse', $hausnr)";

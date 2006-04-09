@@ -4,13 +4,15 @@ session_start();
 
 <html>
 <body>
-<table width="100%" border="1">
+<table width="100%" border="0">
 <tr>
 	<th>Firmenname</th>
 	<th>Vorname</th>
 	<th>Nachname</th>
 </tr>
-
+<tr>
+	<td colspan="3"><hr></td>
+</tr>
 <?php
 $dbname = $_SESSION['datenbankname'];
 $benutzer = $_SESSION['benutzer'];
@@ -27,7 +29,12 @@ if($resultat == false) {
 } else {
 	for($i = 0; $i < pg_num_rows($resultat); $i++) {
 		$array = pg_fetch_array($resultat, NULL, PGSQL_NUM);
-		print "<tr><td>$array[0]</td><td>$array[1]</td><td>$array[2]</td></tr>";
+		if(($i+1) % 2 > 0) {
+			$bgcolor = "bgcolor='grey'";
+		} else {
+			$bgcolor = "";
+		}
+		print "<tr $bgcolor><td>$array[0]</td><td>$array[1]</td><td>$array[2]</td></tr>";
 	}
 }
 ?>
