@@ -10,6 +10,14 @@
 <tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../stammdaten/kunde_erfassen-1.php" target="hauptfenster">Kunde erfassen</a></td></tr>
 <tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../stammdaten/ware_erfassen-1.php" target="hauptfenster">Ware erfassen</a></td></tr>
 <tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../stammdaten/angestellte_erfassen-1.php" target="hauptfenster">Angestellte(n) erfassen</a></td></tr>
+<tr><td align="left">&nbsp;&nbsp;<img src="../bilder/menu_unterpunkt.png">Berichte</td></tr>
+<tr><td align="left">&nbsp;&nbsp;<img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../stammdaten/bericht_kunden-1.php" target="hauptfenster">Kunden</a></td></tr>
+<tr><td align="left">&nbsp;&nbsp;<img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../stammdaten/bericht_waren-1.php" target="hauptfenster">Waren</a></td></tr>
+<tr><td align="left">&nbsp;&nbsp;<img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../stammdaten/bericht_angestellte-1.php" target="hauptfenster">Angestellte</a></td></tr>
+
+
+
+
 <?php } ?>
 
 <!-- Hier ist der Hauptmenupunkt Verkauf definiert -->

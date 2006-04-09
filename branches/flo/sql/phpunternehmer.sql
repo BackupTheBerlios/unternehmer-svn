@@ -179,3 +179,4 @@ grant all on hersteller_id_seq to group xyz;
 grant all on verkaufsobjekt_id_seq to group xyz;
 grant all on vo_details_id_seq to group xyz;
 GRANT ALL ON angestellte TO GROUP xyz;
+GRANT ALL ON adresse_id_seq TO GROUP xyz;

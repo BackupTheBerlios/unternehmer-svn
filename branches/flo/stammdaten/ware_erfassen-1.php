@@ -9,7 +9,7 @@
 </tr>
 <tr>
 	<td align="right">Artikelnummer</td>
-	<td><input type="text" name="artikelnummer"></td>
+	<td><input type="text" name="artikelnr"></td>
 </tr>
 <tr>
 	<td align="right">Hersteller</td>

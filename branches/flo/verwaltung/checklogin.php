@@ -28,9 +28,9 @@ if(!isset($_SESSION['benutzer']) && !isset($_SESSION['passwort']) ) {
 }
 
 $_SESSION['datenbankname'] = $_POST['dbname'];
-
+$dbname = $_POST['dbname'];
 //verbindung zur datenbank 
-$conn = "host=localhost port=5432 dbname=phpunternehmer ".
+$conn = "host=localhost port=5432 dbname=$dbname ".
         "user=postgres password=";
 	
 $db = pg_connect ($conn);
