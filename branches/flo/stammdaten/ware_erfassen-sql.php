@@ -75,7 +75,7 @@ if( $_POST['artikelbezeichnung'] == "" && $_POST['verkaufspreis'] == "" && $_POS
 				if($_POST['artikelnr'] != "") {
 					$art_nr = $_POST['artikelnr'];
 				} else {
-					$art_nr = 0;
+					$art_nr = "NULL";
 				} 
 				//konten_id in aufwandskonto-spalte und erloeskonto-spalte aufteilen, oder noch eine tabelle anlegen
 

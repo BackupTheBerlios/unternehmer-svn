@@ -1,6 +1,6 @@
 <html>
 <body>
-<table width="100%" border="1">
+<table width="100%" border="0">
 <form method="post" action="kunde_erfassen-sql.php">
 <tr>
 	<td colspan="2"><h2><center>Kunde erfassen<center></h2></td>
@@ -10,15 +10,15 @@
 	<td colspan="2"><h3><center>Rechnungsadresse<center></h3></td>
 </tr>
 <tr>
-	<td>Firmenname</td>
+	<td bgcolor="green">Firmenname</td>
 	<td><input type="text" name="firmenname"></td>
 </tr>
 <tr>
-	<td>Vorname</td>
+	<td bgcolor="green">Vorname</td>
 	<td><input type="text" name="vorname"></td>
 </tr>
 <tr>
-	<td>Nachname</td>
+	<td bgcolor="green">Nachname</td>
 	<td><input type="text" name="nachname"></td>
 </tr>
 <tr>

@@ -46,23 +46,24 @@ $loginuid = $array[0];
 
 $query = "SELECT groname,grolist FROM pg_group";
 $resultat = pg_query($query);
-$k = 0;
 $l = 1;
+
+//fuer jeden mandanten, alle gruppenmitglieder durchgehen
+//wer bei mandant in gruppe ist, bekommt sein html-checkbox angekreutzt
 for($i = 0; $i < pg_num_rows($resultat);$i++) {
 	
 	$mandant = pg_fetch_array($resultat, NULL, PGSQL_NUM);
 	for($j = 0; $j < strlen($mandant[1]); $j++) {
 		if($mandant[1][$j] == $loginuid) {
-			$html_mandanten[$k] = "<input type=checkbox name=$mandant[0] checked>$mandant[0]<br>";
-			print $html_mandanten[$k];
-			$k++;
-			$l = 0;
+			print "<input type=checkbox name=$mandant[0] checked>$mandant[0]<br>";
+			$l = 0;	
 		} 
 	}
+	
+	//wuerde die loginuid nicht in der grolist gefunden, checkbox ohne checked ausgeben
 	if($l == 1) {
-		$html_mandanten[$k] = "<input type=checkbox name=$mandant[0]>$mandant[0]<br>";
-		print $html_mandanten[$k];
-		$k++;
+		print "<input type=checkbox name=$mandant[0]>$mandant[0]<br>";
+	} else {
 		$l = 1;
 	}
 }

@@ -30,7 +30,7 @@ if( $resultat == false) {
 			for($j = 0; $j < strlen($mandant[1]); $j++) {
 				if($mandant[1][$j] == $loginuid) {
 					$html_mandanten[$i] .= "$mandant[0]<br>";
-				} 
+				}
 			}
 		}
 	}
@@ -58,7 +58,7 @@ if( $resultat == false) {
 for($i = 0; $i < $anzahl; $i++) { ?>
 	<tr>
 		<td><a href="benutzerprofil.php?loginname=<?php print $loginnamen[$i] ?>"><?php print $loginnamen[$i] ?></a></td>
-		<td frame="border"><?php print $html_mandanten[$i] ?></td>
+		<td><?php print $html_mandanten[$i] ?></td>
 		<td>&nbsp;</td>
 	</tr>
 <?php } ?>

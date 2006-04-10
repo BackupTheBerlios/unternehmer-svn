@@ -4,7 +4,7 @@
 <table width="100%" border="0">
 <tr><td colspan="2"><div align="center"><h2>Ware erfassen</h2></div></td></tr>
 <tr>
-	<td align="right">Artikelbezeichnung</td>
+	<td align="right" bgcolor="olive">Artikelbezeichnung</td>
 	<td><input type="text" name="artikelbezeichnung"></td>	
 </tr>
 <tr>
@@ -24,7 +24,7 @@
 	<td><input type="text" name="listenpreis"></td>
 </tr>
 <tr>
-	<td align="right">Verkaufspreis</td>
+	<td align="right" bgcolor="olive">Verkaufspreis</td>
 	<td><input type="text" name="verkaufspreis"></td>
 </tr>
 <tr>
