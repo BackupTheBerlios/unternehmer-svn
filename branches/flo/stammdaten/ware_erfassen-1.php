@@ -1,3 +1,29 @@
+<?php
+session_start();
+
+$conn = "host=localhost port=5432 dbname={$_SESSION['datenbankname']} " .
+	"user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
+	
+$db = pg_connect ($conn);
+	
+$query = "SELECT kontennr, kontenbezeichnung FROM konten";
+
+$resultat = pg_query($query);
+if($resultat == false) {
+	print "error3";
+} else {
+	$anz_reihen = pg_num_rows($resultat);
+	for($i = 0;$i < $anz_reihen; $i++){
+		$array = pg_fetch_array($resultat, NULL, PGSQL_ASSOC);					
+		
+		$konten[$i] = $array['kontennr'];
+		$konten[$i] .= '---';
+		$konten[$i] .= $array['kontenbezeichnung'];
+		$konten_html[$i] = "<option>$konten[$i]</option>";
+	}
+}
+?>
+
 <html>
 <body>
 <form method="post" action="ware_erfassen-sql.php">
@@ -54,15 +80,23 @@
 <tr>
 	<td align="right">Erl&ouml;skonto</td>
 	<td><select name="erloeskonto" size="0">
-		<option>8400</option>
-		<option>8300</option>
+<?php
+$anz2 = count($konten_html); 
+for($i = 0;$i < $anz2; $i++) {
+	echo $konten_html[$i];
+}
+?>	
 	</select></td>
 </tr>
 <tr>
 	<td align="right">Aufwandskonto</td>
 	<td><select name="aufwandskonto" size="0">
-		<option>3400</option>
-		<option>3500</option>
+<?php
+$anz2 = count($konten_html); 
+for($i = 0;$i < $anz2; $i++) {
+	echo $konten_html[$i];
+}
+?>	
 	</select></td>
 </tr>
 <tr>

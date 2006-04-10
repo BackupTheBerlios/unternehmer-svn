@@ -34,6 +34,25 @@
 
 <?php } ?>
 
+<!-- Hier ist der Hauptmenupunkt Finanzbuchhaltung definiert -->
+<tr><td align="left"><img src="../bilder/menu_finanzbuchhaltung.png">&nbsp;<a href="menuleiste.php?menu_finanzbuchhaltung=1">Finanzbuchhaltung</a></td></tr>
+
+<!-- Hier ist das untermenu fuer Finanzbuchhaltung definiert -->
+<?php if( isset($_GET['menu_finanzbuchhaltung']) ) { ?>
+<tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../finanzbuchhaltung/debitorenbuchung-1.php" target="hauptfenster">Debitorenbuchung</a></td></tr>
+
+<?php } ?>
+
+
+<!-- Hier ist das Einstellungen-menu definiert -->
+<tr><td align="left"><img src="../bilder/menu_einstellungen.png">&nbsp;<a href="menuleiste.php?menu_einstellungen=1">Einstellungen</a></td></tr>
+
+<!-- Hier ist das untermenu fuer Einstellungen definiert -->
+<?php if( isset($_GET['menu_einstellungen']) ) { ?>
+<tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../verwaltung/einstellungen.php" target="hauptfenster">Prog. Einstellungen</a></td></tr>
+
+<?php } ?>
+
 <!-- Hier ist das Hilfemenupunkt definiert -->
 <tr><td align="left"><img src="../bilder/menu_hilfe.png">&nbsp;<a href="menuleiste.php?menu_hilfe=1">Hilfe</a></td></tr>
 
@@ -41,6 +60,8 @@
 <?php if( isset($_GET['menu_hilfe']) ) { ?>
 <tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../hilfe/kunde_erfassen-1.php" target="hauptfenster">Kunde erfassen</a></td></tr>
 <tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../hilfe/ware_erfassen-1.php" target="hauptfenster">Ware erfassen</a></td></tr>
+
+
 
 <?php } ?>
 

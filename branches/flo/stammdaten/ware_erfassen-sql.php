@@ -5,11 +5,9 @@ if( $_POST['artikelbezeichnung'] == "" && $_POST['verkaufspreis'] == "" && $_POS
 	print "Entschuldigung, Sie haben eine der Pflichtangaben vergessen";
 	include "ware_erfassen.php";
 } else {
-	$benutzer = $_SESSION['benutzer'];
-	$passwort = $_SESSION['passwort'];
-	$dbname = $_SESSION['datenbankname'];
 	
-	$conn = "host=localhost port=5432 dbname=$dbname user=$benutzer password=$passwort";
+	$conn = "host=localhost port=5432 dbname={$_SESSION['datenbankname']} " .
+		"user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
 	
 	$db = pg_connect ($conn);
 	
@@ -50,7 +48,9 @@ if( $_POST['artikelbezeichnung'] == "" && $_POST['verkaufspreis'] == "" && $_POS
 		}
 	
 		//prim-key-id von den jeweiligen konten holen
-		$query = "SELECT id FROM konten WHERE kontennr='{$_POST['erloeskonto']}'";
+		$erloeskontonr = explode('---', $_POST['erloeskonto']);
+		
+		$query = "SELECT id FROM konten WHERE kontennr=$erloeskontonr[0]";
 		
 		$resultat = pg_query($query);
 		if($resultat == false) {
@@ -59,8 +59,10 @@ if( $_POST['artikelbezeichnung'] == "" && $_POST['verkaufspreis'] == "" && $_POS
 			//daten einsammeln
 			$erloeskonto_id = pg_fetch_row($resultat, 0);
 			$erloeskonto_id = $erloeskonto_id[0];
+		
+			$aufwandskontonr = explode('---', $_POST['aufwandskonto']);
 			
-			$query = "SELECT id FROM konten WHERE kontennr='{$_POST['aufwandskonto']}'";
+			$query = "SELECT id FROM konten WHERE kontennr=$aufwandskontonr[0]";
 
 			$resultat = pg_query($query);
 
