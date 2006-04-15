@@ -37,47 +37,73 @@ if($resultat == false) {
 	$nachname = $array[2];
 	$html_kunde_id = "<input type='hidden' name='kunde_id' value='$array[3]'";
 	$html_rechnung_id = "<input type='hidden' name='rechnung_id' value='{$_GET['rechnungsnr']}'>";
-	
-	//hole summe der einzelnen verkaufsobjekte
-	$query = "SELECT (verkaufspreis * anzahl)-(SELECT sum(summe) FROM rechnung_bezahlt b, " .
-		 "rechnung_vo r WHERE rechnung_vo_id=rechnung_vo.id AND " .
-		 "b.rechnung_id='{$_GET['rechnungsnr']}'), " .
-		 "vo_id, rechnung_vo.id FROM preise " .
-		 "left outer join rechnung_vo  ON(vo_preise_id=preise.id) WHERE " .
-		 "rechnung_id='{$_GET['rechnungsnr']}'";
-print $query;
+
+	//hole ids der rechnung_vo's um damit dann die einzelnen rechnung_bezahlt summen zu holen
+	$query = "SELECT id, vo_id  FROM rechnung_vo WHERE rechnung_id='{$_GET['rechnungsnr']}'";
 	$resultat = pg_query($query);
-	if($resultat == false) {
+
+	if($resultat == false) {	
 		print "fehler";
 	} else {
 		$anz_reihen = pg_num_rows($resultat);
-		$html_anz_reihen = "<input type='hidden' name='anz_reihen' value='$anz_reihen'";
+		$html_anz_reihen = "<input type='hidden' name='anz_reihen' value='$anz_reihen'>";	
 		
+		//fuer jede id jetzt die summe der einzelen verkaufsobjekte holen
 		for($i = 0; $i < pg_num_rows($resultat); $i++) {
-			$array = pg_fetch_array($resultat);
-			
-			//hole bezeichnung und art_nr von verkaufsobjekt wo id=vo_id 
-			// vo_id = array[1] von vorherigeer abfrage
-			$query = "SELECT art_nr, bezeichnung, id FROM verkaufsobjekt WHERE " .
-				"verkaufsobjekt.id = '$array[1]'";
+			$rechnung_vo_id = pg_fetch_array($resultat, NULL, PGSQL_NUM);
 
+			$query = "SELECT verkaufspreis*anzahl FROM rechnung_vo ".
+				"LEFT OUTER JOIN preise ON(vo_preise_id=preise.id) ".
+				"WHERE rechnung_vo.id='$rechnung_vo_id[0]'";
+		
 			$resultat1 = pg_query($query);
 			if($resultat1 == false) {
 				print "fehler";
 			} else {
-				$array1 = pg_fetch_array($resultat1);
-				$html_gesamtpreise[$i] = "<tr><td>$array1[0]</td>" .
-							 "<td>$array1[1]</td>" .
-							 "<td>$array[0]</td>" .
+				$summe_vo = pg_fetch_array($resultat1,  NULL, PGSQL_NUM);
+				
+				//jetzt eventuell die summe holen, die schon fuer
+				//die ware bezahlt wurde
+				$query = "SELECT sum(summe) FROM rechnung_bezahlt ".
+					"WHERE rechnung_vo_id='$rechnung_vo_id[0]'";
+
+				$resultat2 = pg_query($query);
+				if($resultat2 == false) {
+					print "fehler";
+				} else {
+					//jetzt verkaufspreis*anzahl minus die summe von bezahlt
+					$summe_bezahlt = pg_fetch_row($resultat2, NULL, PGSQL_NUM);
+					if($summe_bezahlt[0] > 0) {
+						$summe_vo[0] -= $summe_bezahlt[0];
+					}
+						
+					//art_nr und bezeichnung holen
+					$query = "SELECT art_nr,bezeichnung FROM verkaufsobjekt ".
+						"WHERE verkaufsobjekt.id='$rechnung_vo_id[1]'";
+
+					$resultat3 = pg_query($query);
+					if($resultat3 == false) {
+						print "fehler";
+					} else {
+						$art_bezeichnung = pg_fetch_array($resultat3, NULL, PGSQL_NUM);
+						
+						//jetzt die html input zusammenbauen
+						$html_gesamtpreise[$i] = "<tr><td>$art_bezeichnung[0]</td>" .
+							 "<td>$art_bezeichnung[1]</td>" .
+							 "<td>$summe_vo[0]</td>" .
 							 "<td><input type='text' name='summe_$i'></td> ".
 							 "<td><select name='erloeskonto_id_$i'> " .
 							 "echo $html_konten </select></td>" .
 							 "</tr><input type='hidden' " .
-							 "name='re_vo_id_$i' value='$array[2]'";
+							 "name='re_vo_id_$i' value='$rechnung_vo_id[0]'";
+					}
+				}
 			}
 		}
 	}
 }
+
+
 
 ?>
 <html>
