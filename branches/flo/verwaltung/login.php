@@ -8,7 +8,7 @@
 <center>
 <table class=login border=3 cellpadding=20>
   <tr>
-    <td class=login align=center><a href="http://unternehmer.berlios.de" target=_top><img src="bilder/unternehmer.png" border=0></a>
+    <td class=login align=center><a href="http://unternehmer.berlios.de" target=_top><img src="../bilder/unternehmer.png" border=0></a>
 <h1 align=center>Version 0.1</h1>
 
 <p>

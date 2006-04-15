@@ -135,6 +135,8 @@ CREATE TABLE "rechnung" (
 
 
 -- besseren namen finden
+-- pro vo wird eine spalte gebucht. also koennen mehrere spalten fuer eine rechnung mit mehrern vo's 
+-- existieren
 CREATE TABLE "rechnung_bezahlt" (
 	"id" SERIAL PRIMARY KEY,
 	"summe" numeric(15,5) NOT NULL,
