@@ -5,24 +5,6 @@ $conn = "host=localhost port=5432 dbname={$_SESSION['datenbankname']} user={$_SE
 	
 $db = pg_connect($conn);
 
-//hier die konten fuer drop-down-felder holen
-$query = "SELECT kontennr, kontenbezeichnung FROM konten";
-
-$resultat = pg_query($query);
-if($resultat == false) {
-	print "error3";
-} else {
-	$anz_reihen = pg_num_rows($resultat);
-	for($i = 0;$i < $anz_reihen; $i++){
-		$array = pg_fetch_array($resultat, NULL, PGSQL_ASSOC);					
-		
-		$konten[$i] = $array['kontennr'];
-		$konten[$i] .= '---';
-		$konten[$i] .= $array['kontenbezeichnung'];
-		$html_konten .= "<option>$konten[$i]</option>";
-	}
-}
-
 //hier firmenamen,vor-und nachname holen
 $query = "SELECT firmenname, vorname, nachname, go_name.id FROM go_name WHERE rechnung.kunde_id = go_name.id AND rechnung.id = {$_GET['rechnungsnr']}";
 
@@ -52,10 +34,10 @@ if($resultat == false) {
 		for($i = 0; $i < pg_num_rows($resultat); $i++) {
 			$rechnung_vo_id = pg_fetch_array($resultat, NULL, PGSQL_NUM);
 
-			$query = "SELECT verkaufspreis*anzahl FROM rechnung_vo ".
+			$query = "SELECT verkaufspreis*anzahl, buchungskonto_id FROM rechnung_vo ".
 				"LEFT OUTER JOIN preise ON(vo_preise_id=preise.id) ".
 				"WHERE rechnung_vo.id='$rechnung_vo_id[0]'";
-		
+	
 			$resultat1 = pg_query($query);
 			if($resultat1 == false) {
 				print "fehler";
@@ -67,16 +49,29 @@ if($resultat == false) {
 				$query = "SELECT sum(summe) FROM rechnung_bezahlt ".
 					"WHERE rechnung_vo_id='$rechnung_vo_id[0]'";
 
+				
 				$resultat2 = pg_query($query);
 				if($resultat2 == false) {
 					print "fehler";
 				} else {
-					//jetzt verkaufspreis*anzahl minus die summe von bezahlt
-					$summe_bezahlt = pg_fetch_row($resultat2, NULL, PGSQL_NUM);
-					if($summe_bezahlt[0] > 0) {
-						$summe_vo[0] -= $summe_bezahlt[0];
+					$summe_bezahlt = pg_fetch_array($resultat2, NULL, PGSQL_NUM);
+					 
+					$query = "SELECT erloeskonto_id FROM rechnung_bezahlt " .
+						"WHERE rechnung_vo_id='$rechnung_vo_id[0]'";
+
+					$resultat_erloes = pg_query($query);
+					if($resultat_erloes == false) {
+						print "fehler";
+					} else {
+						$erloeskontoid = pg_fetch_array($resultat_erloes, NULL, PGSQL_NUM);
 					}
-						
+					
+					//name des erloeskonto holen
+					$query = "SELECT kontenbezeichnung FROM konten WHERE kontennr='$erloeskontoid[0]'";
+					$result = pg_query($query);
+					$kontobezeichnung = pg_fetch_array($result, NULL, PGSQL_NUM);
+					$summe_vo[1] = "$erloeskontoid[0]" . "---" . "$kontobezeichnung[0]";
+
 					//art_nr und bezeichnung holen
 					$query = "SELECT art_nr,bezeichnung FROM verkaufsobjekt ".
 						"WHERE verkaufsobjekt.id='$rechnung_vo_id[1]'";
@@ -91,9 +86,8 @@ if($resultat == false) {
 						$html_gesamtpreise[$i] = "<tr><td>$art_bezeichnung[0]</td>" .
 							 "<td>$art_bezeichnung[1]</td>" .
 							 "<td>$summe_vo[0]</td>" .
-							 "<td><input type='text' name='summe_$i'></td> ".
-							 "<td><select name='erloeskonto_id_$i'> " .
-							 "echo $html_konten </select></td>" .
+							 "<td>$summe_bezahlt[0]</td> ".
+							 "<td>$summe_vo[1]</td>" .
 							 "</tr><input type='hidden' " .
 							 "name='re_vo_id_$i' value='$rechnung_vo_id[0]'";
 					}
@@ -108,8 +102,7 @@ if($resultat == false) {
 ?>
 <html>
 <body>
-<table width="100%" border="1">
-<form method="post" action="debitorenbuchung-sql.php">
+<table width="100%" border="0">
 
 <?php 
 echo $html_anz_reihen;
@@ -117,19 +110,19 @@ echo $html_kunde_id;
 echo $html_rechnung_id;
 ?>
 <tr>
-	<td colspan="5"><center><h2>Debitorenbuchung</center></h2></td>
+	<td colspan="5"><center><h2>Bericht Rechnung</center></h2></td>
 </tr>
 <tr>
-	<td align="right">Firmenname</td>
-	<td colspan="4"><input type="text" name="firmenname" value="<?php echo $firmenname ?>"></td>
+	<td align="right">Firmenname:</td>
+	<td colspan="4"><?php echo $firmenname ?></td>
 </tr>
 <tr>
-	<td align="right">Vorname</td>
-	<td colspan="4"><input type="text" name="vorname" value=<?php echo $vorname ?> ></td>
+	<td align="right">Vorname:</td>
+	<td colspan="4"><?php echo $vorname ?></td>
 </tr>
 <tr>
-	<td align="right">Nachname</td>
-	<td colspan="4"><input type="text" name="nachname" value=<?php echo $nachname ?> ></td>
+	<td align="right">Nachname:</td>
+	<td colspan="4"><?php echo $nachname ?></td>
 </tr>
 <tr>
 	<td colspan="5">&nbsp;</td>
@@ -138,7 +131,7 @@ echo $html_rechnung_id;
 	<td>Artikelnr</td>
 	<td>Artikelbezeichnung</td>
 	<td>Gesamtpreis</td>
-	<td>Bezahlen</td>
+	<td>Bezahlt</td>
 	<td>Erl&ouml;skonto</td>
 </tr>
 <tr><td colspan="5"><hr></td>
@@ -152,9 +145,6 @@ for($i = 0; $i < count($html_gesamtpreise); $i++) {
 ?>
 <tr>
 	<td colspan="5"><hr></td>
-</tr>
-<tr>
-	<td colspan="5"><center><input type="submit" name="debitorenbuchung" value="Einzahlung buchen"></center></td>
 </tr>
 </form>
 </table>

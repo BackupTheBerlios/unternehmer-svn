@@ -26,10 +26,10 @@
 
 <!-- Hier ist das untermenu fuer Verkauf definiert -->
 <?php if( isset($_GET['menu_verkauf']) ) { ?>
-<tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../verkauf/rechnung_erfassen-1.php" target="hauptfenster">Rechnung erfassen</a></td></tr>
+<tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../verkauf/rechnung_erfassen/rechnung_erfassen-1.php" target="hauptfenster">Rechnung erfassen</a></td></tr>
 
 <tr><td align="left">&nbsp;&nbsp;<img src="../bilder/menu_unterpunkt.png">Berichte</td></tr>
-<tr><td align="left">&nbsp;&nbsp;<img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../verkauf/bericht_rechnungen-1.php" target="hauptfenster">Rechnungen</a></td></tr>
+<tr><td align="left">&nbsp;&nbsp;<img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../verkauf/bericht_rechnungen/bericht_rechnungen-1.php" target="hauptfenster">Rechnungen</a></td></tr>
 
 
 <?php } ?>
@@ -39,7 +39,7 @@
 
 <!-- Hier ist das untermenu fuer Finanzbuchhaltung definiert -->
 <?php if( isset($_GET['menu_finanzbuchhaltung']) ) { ?>
-<tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../finanzbuchhaltung/debitorenbuchung-1.php" target="hauptfenster">Debitorenbuchung</a></td></tr>
+<tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../finanzbuchhaltung/debitorenbuchung/debitorenbuchung-1.php" target="hauptfenster">Debitorenbuchung</a></td></tr>
 
 <?php } ?>
 
