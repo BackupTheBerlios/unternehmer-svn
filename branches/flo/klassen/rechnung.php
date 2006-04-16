@@ -13,8 +13,12 @@ class rechnung
 	var $firmenname;
 	var $vorname;
 	var $nachname;
-	var $anzahlverkaufsobjekte
-	
+	var $anzahlverkaufsobjekte;
+	var $bezeichnung;
+	var $art_nr;
+	var $gesamtpreis;
+	var $anzahl;
+
 	//methodenauflistung , leider kann man nicht ausserhalb
 	//einer klasse die methoden definieren, so das etwas mehr uebersicht in den code 
 	//gelangt
@@ -40,8 +44,13 @@ class rechnung
 	//holeNachname
 	//holeFirmennameVornameNachname
 	//holeAnzahlVerkaufsobjekte
-	//holeVerkaufsobjekt
-	
+	//holeIdsVerkaufsobjekte
+	//holeGesamtpreisBezeichnungArtnrAnzahl
+	//holeGesamtpreis
+	//holeBezeichnung
+	//holeArtnr
+	//holeAnzahl
+
 	function nimmDbLoginname($dbloginname) {
 		$this->dbLoginname = $dbloginname;
 	}
@@ -125,10 +134,17 @@ class rechnung
 		if($this->ueberpruefeDbVerbindungsdaten() < 0)
 			return -1;
 		if($this->existiertRechnungsnr($rechnungsnr) < 0)
-			return -1;
-		
-		//rechnungsnr existiert
+			return -2;
+	
 		$this->rechnungsnummer = $rechnungsnr;
+
+		//rechnungsnr existiert
+		$this->holeFirmennameVornameNachname();
+		
+		$this->holeIdsVerkaufsobjekte();
+		$anzahl = $this->holeGesamtpreisBezeichnungArtnrAnzahl();
+		
+		return $anzahl;
 	}
 	
 	function existiertRechnungsnr($rechnungsnr) {
@@ -246,7 +262,7 @@ class rechnung
 		return $this->nachname;
 	}
 
-	function holeFirmennameVornameNachname(&$firmenname, &$vorname, &$nachname) {
+	function holeFirmennameVornameNachname() {
 		if($this->ueberpruefeDbVerbindungsdaten() < 0)
 			return -1;
 		if($this->existiertRechnungsnr($this->rechnungsnummer) < 0)
@@ -260,10 +276,10 @@ class rechnung
 			return -4;
 
 		$resultat1 = pg_fetch_array($resultat, NULL, PGSQL_NUM);
-		$firmenname = $this->firmenname = $resultat1[0];
-		$vorname = $this->vorname = $resultat1[1];
-		$nachname = $this->nachname = $resultat1[2];
-		
+		$this->firmenname = $resultat1[0];
+		$this->vorname = $resultat1[1];
+		$this->nachname = $resultat1[2];
+
 		return 0;
 	}
 
@@ -286,17 +302,76 @@ class rechnung
 		return $this->anzahlverkaufsobjekte;
 	}
 	
-	function holeVerkaufsobjekt($nr) {
+	function holeGesamtpreisBezeichnungArtnrAnzahl() {
 		if($this->ueberpruefeDbVerbindungsdaten() < 0)
 			return -1;
 		if($this->existiertRechnungsnr($this->rechnungsnummer) < 0)
 			return -2;
-		if(!isset($this->anzahlverkaufsobjekte))
-			return -3;
-		if($nr > $this->anzahlverkaufsobjekte)
-			return -4;
 		if( ($db = $this->verbindeZuDb()) < 0)
 			return -3;
+		if( ($ids = $this->holeIdsVerkaufsobjekte()) < 0)
+			return -4;
+
+		for($i = 0; $i < count($ids);$i++) {
+			$query = "SELECT verkaufspreis*anzahl,bezeichnung, art_nr, anzahl ".
+				"FROM verkaufsobjekt LEFT OUTER JOIN rechnung_vo ".
+				"ON(rechnung_vo.vo_id=verkaufsobjekt.id) LEFT OUTER JOIN ".
+				"preise ON(preise.id=rechnung_vo.vo_preise_id) ".
+				"WHERE rechnung_vo.rechnung_id='{$this->rechnungsnummer}'";
+
+		
+			$resultat = pg_query($query);
+			if($resultat == false)
+				return -5;
+			
+			$resultat1 = pg_fetch_array($resultat);
+			$this->gesamtpreis[$i] = $resultat1[0];
+			$this->bezeichnung[$i] = $resultat1[1];
+			$this->art_nr[$i] = $resultat1[2];
+			$this->anzahl[$i] = $resultat1[3];
+		}
+		
+		$anz = count($ids);
+		$this->anzahlverkaufsobjekte = $anz;
+		return $anz;
+	}
+		
+	
+	function holeIdsVerkaufsobjekte() {
+		if($this->ueberpruefeDbVerbindungsdaten() < 0)
+			return -1;
+		if($this->existiertRechnungsnr($this->rechnungsnummer) < 0)
+			return -2;
+		if( ($db = $this->verbindeZuDb()) < 0)
+			return -3;
+
+		$query = "SELECT id  FROM rechnung_vo WHERE rechnung_id='{$this->rechnungsnummer}'";
+		$resultat = pg_query($query);
+		if($resultat == false) 
+			return -4;
+		
+		for($i = 0; $i < pg_num_rows($resultat); $i++) {
+			$tmp_id = pg_fetch_array($resultat);
+			$ids[$i] = $tmp_id;
+		}
+		return $ids;
+	}
+
+	function holeGesamtpreis($pos) {
+		return $this->gesamtpreis[$pos];
+	}
+
+	function holeBezeichnung($pos) {
+		return $this->bezeichnung[$pos];
+	}
+
+	function holeArtnr($pos) {
+		return $this->art_nr[$pos];
+	}
+
+	function holeAnzahl($pos) {
+		return $this->anzahl[$pos];
+	}
 		
 
 }		
