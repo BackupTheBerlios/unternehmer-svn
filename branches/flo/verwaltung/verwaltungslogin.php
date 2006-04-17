@@ -1,6 +1,6 @@
 <?php
 session_start();
-if($_POST['loginname'] != "" && $_POST['passwort'] != "" && $_POST['dbrechner'] != "") {
+if($_POST['loginname'] != "" && $_POST['passwort'] && $_POST['dbrechner'] != "") {
 
 	if(!empty($_POST['loginname'])) { 
 		$loginname = $_POST['loginname']; 
@@ -32,10 +32,12 @@ if($_POST['loginname'] != "" && $_POST['passwort'] != "" && $_POST['dbrechner'] 
 			$passwort = $_SESSION['passwort'];
 		}
 	}
+	
+	$_SESSION['dbrechner'] = $_POST['dbrechner'];
 
 	//verbindung zur datenbank 
 	$conn = "host={$_POST['dbrechner']} port=5432 dbname=template1 ".
-        	"user={$_POST['loginname']} password={$_POST['passwort']}";
+        	"user={$_POST['loginname']} password='{$_POST['passwort']}'";
 
 	$db = @pg_connect($conn);
 	if(!$db){print "Benutzername oder Passwort falsch";}

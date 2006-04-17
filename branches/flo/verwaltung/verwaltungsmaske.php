@@ -1,7 +1,8 @@
 <?php
+session_start();
 //auslesen der benutzer und dann die daraus tabellenreihen erstellen
-$conn = "host=localhost port=5432 dbname=template1 ".
-        "user=postgres password=";
+$conn = "host={$_SESSION['dbrechner']} port=5432 dbname=template1 ".
+        "user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
 	
 $db = pg_connect ($conn);
 //brauche ein select statement was vorname,nachname,loginame,datenbank ausliest

@@ -1,12 +1,11 @@
-<html>
-<body>
-
 <?php
-
+session_start();
 //ueberpruefen ob ein passwort und loginname gesetzt sind, wenn nicht, (erneut) maske zeigen
 //
 if($_POST['passwort'] == "" || $_POST['loginname'] == "") {
 ?>
+<html>
+<body>
 
 <h1>Benutzer anlegen</h1>
 
@@ -37,8 +36,8 @@ if($_POST['passwort'] == "" || $_POST['loginname'] == "") {
 //
 } else {
 //verbindung zur datenbank und loginname und passwort speichern.
-$conn = "host=localhost port=5432 dbname=template1 ".
-        "user=postgres password=";
+$conn = "host={$_SESSION['dbrechner']} port=5432 dbname=template1 ".
+        "user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
 	
 $db = pg_connect ($conn);
 

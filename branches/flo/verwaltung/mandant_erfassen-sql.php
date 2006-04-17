@@ -1,13 +1,14 @@
 <?php
+session_start();
 //hier muss dann eine db angelegt werden mit dem mandantenname, 
 //dann muesste sql script manipuliert werden, in grant statemnets am schluss der datei
 //den gruppenname=mandantenname einfuegen
 //dann muesste postgresql db gruppe angelegt werden, name=mandantenname
 //und sql-file einspielen
 
-$conn = "host=localhost port=5432 ".
-        "user=postgres password=postgres dbname=template1";
-	
+$conn = "host={$_SESSION['dbrechner']} port=5432 ".
+        "user={$_SESSION['benutzer']} password={$_SESSION['passwort']} dbname=template1";
+print $conn;	
 $db = pg_connect ($conn);
 
 //create database kann nicht in einem transaction block laufen,deshalb per code loeschen
@@ -38,13 +39,7 @@ if($resultat == false) {
 	print "Gruppe fuer Mandant erfolgreich angelegt<br>";
 }
 
-
-pg_close($db);
-$conn = "host=localhost port=5432 ".
-	"user=postgres password=postgres dbname=$mandantenname";
-
 if($db_ok != "KO") {
-$db = pg_connect($conn);
 
 	pg_query("BEGIN TRANSACTION");
 	$sqlfile = '/var/www/unternehmer/branches/flo/sql/phpunternehmer.sql';
@@ -57,7 +52,6 @@ $db = pg_connect($conn);
 			$query .= str_replace("xyz", $mandantenname, $array[$i]);
 			
 			if( strstr($array[$i], ';') != FALSE) {
-				print $query;
 				$resultat = pg_query($query);
 				//fehlerbehandlung
 				if( $resultat == false) {
@@ -86,6 +80,7 @@ $db = pg_connect($conn);
 	} else {
 		pg_query("COMMIT");
 		print "Mandant erfolgreich angelegt";
+		include "verwaltungsmaske.php";
 	}
 	
 }

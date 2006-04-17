@@ -1,21 +1,16 @@
 <?php
+session_start();
 //mandant heist, man schmeisst jemanden in dessen gruppe, so das er zugriff auf diese mandanten-db hat
 //d.h. man legt dessen pg_user(usesysid) in pg_group(grolist)
 //mandanten holt man aus pg_group(groname)
-$conn = "host=localhost port=5432 ".
-        "user=postgres password=postgres dbname=template1";
+$conn = "host={$_SESSION['dbrechner']} port=5432 ".
+        "user={$_SESSION['benutzer']} password={$_SESSION['passwort']} dbname=template1";
 	
 $db = pg_connect ($conn);
+//fuer anzeige in html inputfeld
 $loginname = $_GET['loginname'];
-$query = "SELECT passwd FROM pg_shadow WHERE usename='$loginname'";
 
-$resultat = pg_query($query);
-if($resultat == false) {
-	print "error select";
-} else {
-	$array = pg_fetch_array($resultat, NULL, PGSQL_NUM);
-	$passwort = $array[0];
-}
+//daten fuer die programmoberflaeche holen
 
 ?>
 
@@ -41,6 +36,9 @@ if($resultat == false) {
 <?php
 $query = "SELECT usesysid FROM pg_user WHERE usename='$loginname'";
 $resultat = pg_query($query);
+if($resultat == false) {
+	print "fehler1";
+}
 $array = pg_fetch_row($resultat, NULL, PGSQL_NUM);
 $loginuid = $array[0];
 

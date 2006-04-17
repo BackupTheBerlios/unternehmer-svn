@@ -7,29 +7,13 @@
 	<td colspan="2"><center><h2>Mandant erfassen</h2></center></td>
 </tr>
 <tr>
-	<td align="right">Datenbankcomputer</td>
-	<td><input type="text" name="datenbankcomputer" value="localhost"></td>
-</tr>
-<tr>
-	<td align="right">Port</td>
-	<td><input type="text" name="port" value="5432"></td>
-</tr>
-<tr>
-	<td align="right">Benutzer</td>
-	<td><input type="text" name="benutzer" value="postgres"></td>
-</tr>
-<tr>
-	<td align="right">Passwort</td>
-	<td><input type="password" name="passwort"></td>
-</tr>
-<tr>
 	<td><hr></td>
 </tr>
 <tr>
 	<td colspan="2">Mandanten Daten</td>
 </tr>
 <tr>
-	<td align="right">Mandantenname</td>
+	<td align="right" bgcolor="olive">Mandantenname</td>
 	<td><input type="text" name="mandantenname"></td>
 <tr>
 	<td align="right">Firmenname</td>
