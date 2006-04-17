@@ -10,6 +10,7 @@ $conn = "host=localhost port=5432 ".
 	
 $db = pg_connect ($conn);
 
+//create database kann nicht in einem transaction block laufen,deshalb per code loeschen
 $mandantenname = $_POST['mandantenname'];
 $query = "CREATE DATABASE $mandantenname";
 
@@ -17,6 +18,9 @@ $resultat = pg_query($query);
 if($resultat == false) {
 	print "Fehler bei Mandant anlegen";
 	$db_ok = "KO";
+	$query = "DROP DATABASE $mandantenname";
+	if( ($resultat = pg_query($query)) == false)
+		print "Fehler db fuer Mandant loeschen<br>";
 } else {
 	print "Datenbank fuer Mandant erfolgreich angelegt<br>";
 }
@@ -26,14 +30,10 @@ $query = "CREATE GROUP $mandantenname";
 $resultat = pg_query($query);
 if($resultat == false) {
 	print "Fehler bei Gruppe anlegen";
+	$query = "DROP GROUP $mandantenname";
+	if( ($resultat = pg_query($query)) == false)
+		print "Fehler gruppe fuer Mandant loeschen<br>";
 	$db_ok = "KO";
-	$query = "DROP DATABASE $mandatenname";
-	$resultat = pg_query($query);
-	if($resultat == false) {
-		print "Fehler Mandant loeschen";
-	} else {
-		print "Mandant wieder geloescht";
-	}
 } else {
 	print "Gruppe fuer Mandant erfolgreich angelegt<br>";
 }
@@ -47,7 +47,6 @@ if($db_ok != "KO") {
 $db = pg_connect($conn);
 
 	pg_query("BEGIN TRANSACTION");
-	
 	$sqlfile = '/var/www/unternehmer/branches/flo/sql/phpunternehmer.sql';
 	//datei in array einlesen
 	$array = file($sqlfile);
@@ -58,6 +57,7 @@ $db = pg_connect($conn);
 			$query .= str_replace("xyz", $mandantenname, $array[$i]);
 			
 			if( strstr($array[$i], ';') != FALSE) {
+				print $query;
 				$resultat = pg_query($query);
 				//fehlerbehandlung
 				if( $resultat == false) {
@@ -75,6 +75,14 @@ $db = pg_connect($conn);
 	//transaction abschliessen
 	if( $db_ok == "KO") {
 		pg_query("ROLLBACK");
+		//da create database und group nicht in einer transaction stehen duerfen
+		//muessen diese wieder geloescht werden per code, wenn fehler auftrat
+		$query = "DROP DATABASE $mandantenname";
+		if( ($resultat = pg_query($query)) == false)
+			print "Fehler db loeschen<br>";
+		$query = "DROP GROUP $mandantenname";
+		if( ($resultat = pg_query($query)) == false)
+			print "Fehler gruppe loeschen<br>";
 	} else {
 		pg_query("COMMIT");
 		print "Mandant erfolgreich angelegt";
