@@ -28,9 +28,13 @@
 		<td><input type=password name="passwort" size=20 maxlength=20 tabindex="2"></td>
 	      </tr>
 	      <tr>
-	      	<th align="right">Datenbankname</th>
+	      	<th align="right">Mandant</th>
 		<td><input type="text" name="dbname" size="20" tabindex="3"></td>
 	      </tr>
+	      <tr>
+	        <th align="right">Datenbankrechner</th>
+		<td><input type="text" name="dbrechner" size="20" tabindex="3" value="localhost"></td>
+	      <tr>
 	    </table>
 
 	    <br>

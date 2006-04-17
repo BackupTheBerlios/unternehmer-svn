@@ -10,7 +10,7 @@ session_start();
 
 	<td>&nbsp;</td>
 
-	<td style="vertical-align:super; color:white; font-family:verdana,arial,sans-serif; font-size:18px;" nowrap>Datenbankname:&nbsp;<?php echo $_SESSION['datenbankname']; ?></td>
+	<td style="vertical-align:super; color:white; font-family:verdana,arial,sans-serif; font-size:18px;" nowrap>Mandant:&nbsp;<?php echo $_SESSION['datenbankname']; ?></td>
 	
 	<td style="vertical-align:super; color:white; font-family:verdana,arial,sans-serif; font-size:18px;" nowrap>Uhrzeit:</td>
 </tr>

@@ -110,7 +110,8 @@ CREATE TABLE "vo_details" (
 	"id" SERIAL PRIMARY KEY,
 	"gewicht" integer,
 	"einheit" character varying(50) DEFAULT 'Stck',
-	"waehrung_id" integer  NOT NULL REFERENCES waehrung(id)
+	"waehrung_id" integer  NOT NULL REFERENCES waehrung(id),
+	"rechnung_pos" integer
 );
 
 --  VerkaufsObjekt, weil es ware,dienstleistung oder lizenz sein kann. name halt
@@ -169,7 +170,7 @@ grant all on rechnung_vo to group xyz;
 grant all on rechnung to group xyz;
 grant all on rechnung_id_seq to group xyz;
 GRANT ALL ON go_name to group xyz;
-grant all on database d to group xyz;
+grant all on database xyz to group xyz;
 grant all on go_name_id_seq to group xyz; 
 grant all on adresse to group xyz;
 grant all on preise to group xyz;
