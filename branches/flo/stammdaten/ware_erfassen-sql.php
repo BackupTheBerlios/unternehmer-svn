@@ -6,7 +6,7 @@ if( $_POST['artikelbezeichnung'] == "" && $_POST['verkaufspreis'] == "" && $_POS
 	include "ware_erfassen.php";
 } else {
 	
-	$conn = "host=localhost port=5432 dbname={$_SESSION['datenbankname']} " .
+	$conn = "host={$_SESSION['dbrechner']} port=5432 dbname={$_SESSION['dbname']} " .
 		"user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
 	
 	$db = pg_connect ($conn);

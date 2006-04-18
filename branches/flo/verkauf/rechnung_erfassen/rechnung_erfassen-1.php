@@ -2,7 +2,7 @@
 session_start();
 
 //hier wird das html-selectfeld fuer kunde gefuellt
-$conn = "host=localhost port=5432 dbname={$_SESSION['datenbankname']} user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
+$conn = "host={$_SESSION['dbrechner']} port=5432 dbname={$_SESSION['dbname']} user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
 	
 $db = pg_connect ($conn);
 

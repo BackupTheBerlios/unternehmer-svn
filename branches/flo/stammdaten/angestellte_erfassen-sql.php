@@ -1,6 +1,6 @@
 <?php
 session_start();
-$dbname = $_SESSION['datenbankname'];
+$dbname = $_SESSION['dbname'];
 $benutzer = $_SESSION['benutzer'];
 $passwort = $_SESSION['passwort'];
 $vorname = $_POST['vorname'];

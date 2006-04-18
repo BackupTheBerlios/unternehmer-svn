@@ -5,10 +5,10 @@
 //wenn eine Angabe fehlt zurueck zur maske
 //man sollte noch das passwort abfragen, das wiederrum heist das es ein passwort fuer denjenigen user geben muss.
 
-if( $_POST['datenbankcomputer'] == "" || $_POST['port'] == "" || $_POST['benutzer'] == "") {
+if( $_POST['dbrechner'] == "" || $_POST['port'] == "" || $_POST['benutzer'] == "") {
 	$fehlermeldung .= 'Sie haben eine Angabe vergessen';
 	print $fehlermeldung;
-	include "/var/www/unternehmer/branches/flo/verwaltung/datenbankadministration-1.php";
+	include "datenbankadministration-1.php";
 } 
 
 
@@ -23,7 +23,7 @@ elseif( $_POST['dbanlegen'] == "") {
 <form method="post" action="datenbankanlegen-sql.php">
 <tr>
 	<td align="right">Datenbankname</td>
-	<td><input type="text" name="datenbankname"></td>
+	<td><input type="text" name="dbname"></td>
 </tr>
 <tr>
 	<td colspan="2"><hr></td>

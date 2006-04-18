@@ -8,7 +8,7 @@ session_start();
 
 $conn = "host={$_SESSION['dbrechner']} port=5432 ".
         "user={$_SESSION['benutzer']} password={$_SESSION['passwort']} dbname=template1";
-print $conn;	
+	
 $db = pg_connect ($conn);
 
 //create database kann nicht in einem transaction block laufen,deshalb per code loeschen
@@ -40,6 +40,13 @@ if($resultat == false) {
 }
 
 if($db_ok != "KO") {
+	//db-verbindung zu template1 schliessen,und um tabellen zu erstellen
+	//in die neukreirte db wechseln
+	pg_close($db);
+	$conn = "host={$_SESSION['dbrechner']} port=5432 ".
+        "user={$_SESSION['benutzer']} password={$_SESSION['passwort']} dbname=$mandantenname";
+		
+	$db = pg_connect ($conn);
 
 	pg_query("BEGIN TRANSACTION");
 	$sqlfile = '/var/www/unternehmer/branches/flo/sql/phpunternehmer.sql';
@@ -57,14 +64,13 @@ if($db_ok != "KO") {
 				if( $resultat == false) {
 					print "fehler im query generator";
 					$db_ok = "KO";
+					print $query;
 				}
 				$query = "";
 			}
 		}
 	}
 	
-	
-	//pg_query(file_get_contents($sqlfile)) or die "fehler dump";
 	
 	//transaction abschliessen
 	if( $db_ok == "KO") {

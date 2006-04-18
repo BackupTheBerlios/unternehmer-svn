@@ -21,12 +21,13 @@ if( $_POST['loginname'] == "" || $_POST['passwort'] == "" || $_POST['dbname'] ==
 	$_SESSION['dbrechner'] = $_POST['dbrechner'];
 	$_SESSION['benutzer'] = $_POST['loginname'];
 	$_SESSION['passwort'] = $_POST['passwort'];
+	$_SESSION['dbname'] = $_POST['dbname'];
 	$dbname = $_POST['dbname'];
 
 	//verbindung zur datenbank 
-	$conn = "host={$_POST['dbrechner']} port=5432 dbname=$dbname ".
-        	"user={$_POST['loginname']} password=$passwort";
-print $conn;
+	$conn = "host={$_POST['dbrechner']} port=5432 dbname={$_POST['dbname']} ".
+        	"user={$_POST['loginname']} password={$_POST['passwort']}";
+
 	$db = @pg_connect($conn);
 	
 	if(!$db){

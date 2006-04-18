@@ -4,27 +4,27 @@
 <?php
 	
 	//ueberpruefen ob alle daten vorhanden sind,  nach passwort sollte man eigentlich auch abfragen
-	if( $_POST['datenbankcomputer'] == "") {
+	if( $_POST['dbrechner'] == "") {
 		print "fehler1";
 	} elseif( $_POST['port'] == "") {
 		print "fehler2";
 	} elseif( $_POST['benutzer'] == "") {
 		print "fehler3";
-	} elseif( $_POST['datenbankname'] == "") {
+	} elseif( $_POST['dbname'] == "") {
 		print "fehler4";
 	}
 	
-	$host = $_POST['datenbankcomputer']; 
+	$host = $_POST['dbrechner']; 
 	$port =  $_POST['port']; 
 	$user = $_POST['benutzer']; 
 	$password = $_POST['passwort'];
-	$datenbankname =  $_POST['datenbankname'];
+	$dbname =  $_POST['dbname'];
 
 	$conn = "host=$host port=$port dbname=template1 user=$user password=$password";
 	
 	$db = pg_connect ($conn);
 
-	$query = "CREATE DATABASE $datenbankname";
+	$query = "CREATE DATABASE $dbname";
 
 	$resultat = pg_query($query);
 

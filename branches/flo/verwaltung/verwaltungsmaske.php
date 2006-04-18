@@ -108,7 +108,7 @@ for($i = 0; $i < $anzahl; $i++) { ?>
 </tr>
 <tr>
 	<td align="right">Datenbankname</td>
-	<td><input name="datenbankname" type="text"></td>
+	<td><input name="dbname" type="text"></td>
 </tr>
 <tr>
 	<td align="right"><input type="submit" value="Anmelden" name="anmelden"></td>

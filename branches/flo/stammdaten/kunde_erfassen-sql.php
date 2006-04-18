@@ -20,7 +20,7 @@ if($ok != 1) {
 else {
 	$passwort =  htmlspecialchars($_SESSION['passwort']);
 	$benutzer =  htmlspecialchars($_SESSION['benutzer']);
-	$dbname =  htmlspecialchars($_SESSION['datenbankname']);
+	$dbname =  htmlspecialchars($_SESSION['dbname']);
 	
 	$conn = "host=localhost port=5432 dbname=$dbname user=$benutzer password=$passwort";
 	
