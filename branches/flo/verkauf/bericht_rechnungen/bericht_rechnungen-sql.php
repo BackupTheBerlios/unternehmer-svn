@@ -10,7 +10,7 @@ $rech->nimmRechnungsnr($_GET['rechnungsnr']);
 ?>
 <html>
 <body>
-<table width="100%" border="1">
+<table width="100%" border="0">
 <tr>
 	<td>Rechnungnr.</td>
 	<td><?php print $rech->holeRechnungsnr(); ?></td>
@@ -27,14 +27,14 @@ $rech->nimmRechnungsnr($_GET['rechnungsnr']);
 	<td>Nachname</td>
 	<td><?php print $rech->holeNachname(); ?></td>
 </tr>
-<tr><td colspan="2"><hr></td>
+<tr><td colspan="5">&nbsp;</td>
 </tr>
 <tr>
-	<td>Pos</td>
-	<td>Art-Nr.</td>
-	<td>Bezeichnung</td>
-	<td>Anzahl</td>
-	<td>Gesamtpreis</td>
+	<td bgcolor="grey">Pos</td>
+	<td bgcolor="grey">Art-Nr.</td>
+	<td bgcolor="grey">Bezeichnung</td>
+	<td bgcolor="grey">Anzahl</td>
+	<td bgcolor="grey">Gesamtpreis</td>
 <?php
 $anz = $rech->holeAnzahlVerkaufsobjekte();
 for($i = 0; $i < $anz; $i++) { ?>

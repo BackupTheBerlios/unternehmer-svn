@@ -12,11 +12,14 @@ $html_konten = hole_html_konten_drop_down();
 //hier firmenamen,vor-und nachname, go_name.id holen
 $firmen_vor_nachname_gonameid = hole_firmen_vor_nachname($_GET['rechnungsnr']);
 
-if($firmen_vor_nachname == "KO") {
+if($firmen_vor_nachname_gonameid == "KO") {
 	print "fehler";
 } else {
 	$html_kunde_id = "<input type='hidden' name='kunde_id' value='$firmen_vor_nachname_gonameid[3]'";
 	$html_rechnung_id = "<input type='hidden' name='rechnung_id' value='{$_GET['rechnungsnr']}'>";
+	$firmenname = $firmen_vor_nachname_gonameid[0];
+	$vorname = $firmen_vor_nachname_gonameid[1];
+	$nachname = $firmen_vor_nachname_gonameid[2];
 }
 
 //hole ids von allen verkaufsobjekten
@@ -72,7 +75,7 @@ for($i = 0; $i < pg_num_rows($ids); $i++) {
 ?>
 <html>
 <body>
-<table width="100%" border="1">
+<table width="100%" border="0">
 <form method="post" action="debitorenbuchung-sql.php">
 
 <?php 
@@ -84,26 +87,26 @@ echo $html_rechnung_id;
 	<td colspan="5"><center><h2>Debitorenbuchung</center></h2></td>
 </tr>
 <tr>
-	<td align="right">Firmenname</td>
-	<td colspan="4"><input type="text" name="firmenname" value="<?php echo $firmenname ?>"></td>
+	<td align="right">Firmenname:</td>
+	<td colspan="4"><?php echo $firmenname ?></td>
 </tr>
 <tr>
-	<td align="right">Vorname</td>
-	<td colspan="4"><input type="text" name="vorname" value=<?php echo $vorname ?> ></td>
+	<td align="right">Vorname:</td>
+	<td colspan="4"><?php echo $vorname ?></td>
 </tr>
 <tr>
-	<td align="right">Nachname</td>
-	<td colspan="4"><input type="text" name="nachname" value=<?php echo $nachname ?> ></td>
+	<td align="right">Nachname:</td>
+	<td colspan="4"><?php echo $nachname ?></td>
 </tr>
 <tr>
 	<td colspan="5">&nbsp;</td>
 </tr>
 <tr>
-	<td>Artikelnr</td>
-	<td>Artikelbezeichnung</td>
-	<td>Gesamtpreis</td>
-	<td>Bezahlen</td>
-	<td>Erl&ouml;skonto</td>
+	<td bgcolor="grey">Artikelnr</td>
+	<td bgcolor="grey">Artikelbezeichnung</td>
+	<td bgcolor="grey">Gesamtpreis</td>
+	<td bgcolor="grey">Bezahlen</td>
+	<td bgcolor="grey">Erl&ouml;skonto</td>
 </tr>
 <tr><td colspan="5"><hr></td>
 </tr>
@@ -148,7 +151,8 @@ function hole_html_konten_drop_down() {
 
 function hole_firmen_vor_nachname($rechnungsnr) {
 	$query = "SELECT firmenname, vorname, nachname, go_name.id FROM ".
-		"go_name WHERE rechnung.kunde_id = go_name.id AND rechnung.id='$rechnungsnr'";
+		"go_name, rechnung WHERE rechnung.kunde_id = go_name.id AND ".
+		"rechnung.id='$rechnungsnr'";
 
 	$resultat = pg_query($query);
 

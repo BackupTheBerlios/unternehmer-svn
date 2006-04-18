@@ -3,9 +3,7 @@ session_start();
 
 $conn = "host={$_SESSION['dbrechner']} port=5432 dbname={$_SESSION['dbname']} " .
 	"user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
-print "hey:";
-print $_SESSION['dbname'];
-print $conn;	
+
 $db = pg_connect ($conn);
 	
 $query = "SELECT kontennr, kontenbezeichnung FROM konten";
