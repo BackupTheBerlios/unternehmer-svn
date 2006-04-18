@@ -14,7 +14,7 @@ session_start();
 <?php
 //rechnungsnr aus tbl rechnung holen
 //dann mit der id, die firmen,vorname oder nachname holen
-$dbname = $_SESSION['datenbankname'];
+$dbname = $_SESSION['dbname'];
 $benutzer = $_SESSION['benutzer'];
 $passwort = $_SESSION['passwort'];
 

@@ -14,7 +14,7 @@ session_start();
 <?php
 //rechnungsnr aus tbl rechnung holen
 //dann mit der id, die firmen,vorname oder nachname holen
-$conn = "host=localhost port=5432 dbname={$_SESSION['datenbankname']} " .
+$conn = "host=localhost port=5432 dbname={$_SESSION['dbname']} " .
 	"user={$_SESSION['benutzer']} password={$_SESSION['passwort']}";
 	
 $db = pg_connect ($conn);

@@ -3,7 +3,7 @@ session_start();
 require_once("../../klassen/rechnung.php");
 
 $rech = new rechnung;
-$rech->nimmAlleDbDaten("{$_SESSION['benutzer']}", "{$_SESSION['datenbankname']}", "5432", "localhost", "{$_SESSION['passwort']}");
+$rech->nimmAlleDbDaten("{$_SESSION['benutzer']}", "{$_SESSION['dbname']}", "5432", "localhost", "{$_SESSION['passwort']}");
 $rech->nimmRechnungsnr($_GET['rechnungsnr']);
 
 

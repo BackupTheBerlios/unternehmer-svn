@@ -14,7 +14,7 @@ session_start();
 	<td colspan="3"><hr></td>
 </tr>
 <?php
-$dbname = $_SESSION['datenbankname'];
+$dbname = $_SESSION['dbname'];
 $benutzer = $_SESSION['benutzer'];
 $passwort = $_SESSION['passwort'];
 
