@@ -43,6 +43,14 @@
 
 <?php } ?>
 
+<!-- Hier ist das Berichte-menu definiert -->
+<tr><td align="left"><img src="../bilder/menu_berichte.png">&nbsp;<a href="menuleiste.php?menu_berichte=1">Berichte</a></td></tr>
+
+<!-- Hier ist das untermenu fuer Berichte-menu definiert -->
+<?php if( isset($_GET['menu_berichte']) ) { ?>
+<tr><td align="left"><img src="../bilder/menu_unterpunkt.png">&nbsp;<a href="../berichte/kontenuebersicht-1.php" target="hauptfenster">Konten&uuml;bersicht</a></td></tr>
+
+<?php } ?>
 
 <!-- Hier ist das Einstellungen-menu definiert -->
 <tr><td align="left"><img src="../bilder/menu_einstellungen.png">&nbsp;<a href="menuleiste.php?menu_einstellungen=1">Einstellungen</a></td></tr>
