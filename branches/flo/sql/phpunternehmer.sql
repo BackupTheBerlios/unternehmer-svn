@@ -27,7 +27,7 @@ CREATE TABLE "adresse" (
 );
 
 
-CREATE TABLE "geschaeftsobjekt" (
+CREATE TABLE "geschaeftspartner" (
 	"go_name_id" integer NOT NULL REFERENCES go_name(id),
 	"adresse_id" integer REFERENCES adresse(id),
 	"ist_kunde" boolean,
@@ -71,7 +71,7 @@ CREATE TABLE "mandant" (
 
 CREATE TABLE "hersteller" (
 	"id" SERIAL PRIMARY KEY,
-	"hersteller" character varying(50),
+	"go_name_id" integer REFERENCES go_name(id),
 	"modell" character varying(50)
 );
 
@@ -80,7 +80,7 @@ CREATE TABLE "hersteller" (
 -- alle user greifen auf dieselbe tabelle zu
 CREATE TABLE "kontenart" (
 	"id" SERIAL PRIMARY KEY,
-	"erloeskonto" boolean,
+	"ertragskonto" boolean,
 	"aufwandskonto" boolean
 );
 
